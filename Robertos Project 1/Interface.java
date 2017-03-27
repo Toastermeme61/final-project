@@ -109,8 +109,8 @@ class Interface extends RobertosSwinging
       alias = player.getAlias();
       player.setGender(getPlayerGender(alias));
       gender = player.getGender();
-      player.setSign(getPlayerAstroSign(alias));
-      sign = player.getSign();
+      player.setZodiacSign(getPlayerAstroSign(alias));
+      sign = player.getZodiacSign();
       player.setBirthYear(getPlayerBirthYear(alias));
       year = player.getBirthYear();
       player.setBalance(getPlayerDepositAmount(alias)); 
@@ -379,23 +379,26 @@ class Interface extends RobertosSwinging
 //    public void displayRegistrationFee(Player player, GameParameters game)
 //    {
 //       JLabel line1,line2,line3,line4,line5,line6,line7,line8,line9line10,line11;
-//       line1 = new JLabel(n+", aka "+a+", here's your tab:");
-//       line2 = new JLabel(""+b+" - Basic Registration Fee - based on your age");
-//       line3 = new JLabel(""+e+ " - At $1.25 per feature for "+x+" Extra Game Features of:");
-//       line4 = new JLabel(""+t+ " Moldy Spaghetti Bowl(s)");
-//       line5 = new JLabel(""+m+ " Monster(s)");
-//       line6 = new JLabel(""+k+ " Key(s)");
+//       
+//       int extraFeatures = game.getMonsterAmount()+game.getKeyAmount()+game.getTreasureAmount();
+//       double basicCost,extraFeaturesCost,subtotal, fee, total;
+//       basicCost = getUserFee(getUserAge(player.getBirthYear())); 
+//       extraFeaturesCost =  extraFeatures * 1.25;
+//       subtotal = basicCost + extraFeaturesCost;
+//       fee = robertosRoundToPenny(subtotal*0.1);
+//       total = subtotal + fee;
+//       line1 = new JLabel(player.getName()+", aka "+player.getAlias()+", here's your tab:");
+//       line2 = new JLabel(""+basicCost+" - Basic Registration Fee - based on your age");
+//       line3 = new JLabel(""+extraFeaturesCost+ " - At $1.25 per feature for "+extraFeatures+" Extra Game Features of:");
+//       line4 = new JLabel(""+game.getTreasureAmount()+ " Moldy Spaghetti Bowl(s)");
+//       line5 = new JLabel(""+game.getMonsterAmount()+ " Monster(s)");
+//       line6 = new JLabel(""+game.getKeyAmount()+ " Key(s)");
 //       line7 = new JLabel("==============");
-//       line8 = new JLabel(""+s+" - Subtotal");
-//       line9 = new JLabel(""+f+" - Rounded ESCAPE Service Fee of 10%");
+//       line8 = new JLabel(""+subtotal+" - Subtotal");
+//       line9 = new JLabel(""+fee+" - Rounded ESCAPE Service Fee of 10%");
 //       line10 = new JLabel("==============");
-//       line11 = new JLabel(""+q+" - Total ESCAPE Registration Fee");
-//       JLabel[] labels = new JLabel{line1,line2,line3,line4,line5,line6,line7,line8,line9,line10,line11};
-//       for(int x = 0; x< labels.length(); x++)
-//       {
-//          labels[x].setBounds(0,20*x,1000,50);
-//          labels[x].setHorizontalAlignment();
-//       }
+//       line11 = new JLabel(""+total+" - Total ESCAPE Registration Fee");
+//       JLabel[] lines = {line1,line2,line3,line4,line5,line6,line7,line8,line9line10,line11};
 //    }
 //    
    public void showMsgGameDialog(JFrame frame, String text, String title)
@@ -441,8 +444,18 @@ class PanelPainter extends JPanel
 class Player
 {
    String name, alias, gender, zodiacSign;
-   int year,keyAmount,creatureAmount,treasureAmount;
+   int year;
    double money;
+   Player(String name, String alias, String gender, String zodiacSign,int year, double money)
+   {
+      setName(name);
+      setAlias(alias);
+      setGender(gender);
+      setZodiacSign(zodiacSign);
+      setBirthYear(year);
+      setBalance(money);
+   }
+   Player(){};
    public void setName(String name)
    {
       this.name = name;
@@ -455,7 +468,7 @@ class Player
    {
       this.gender = gender;
    }
-   public void setSign(String sign)
+   public void setZodiacSign(String sign)
    {
       zodiacSign = sign;
    }
@@ -479,7 +492,7 @@ class Player
    {
       return gender;
    }
-   public String getSign()
+   public String getZodiacSign()
    {
       return zodiacSign;
    }
@@ -495,6 +508,13 @@ class Player
 class GameParameters
 {
    int monsters, treasures, keys;
+   GameParameters(){}
+   GameParameters(int monsters, int treasures, int keys)
+   {
+      setMonsterAmount(monsters);
+      setTreasureAmount(treasures);
+      setKeyAmount(keys);
+   }
    public void setMonsterAmount(int number)
    {
       monsters = number;
