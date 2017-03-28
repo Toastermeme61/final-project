@@ -21,22 +21,23 @@ class Interface extends RobertosSwinging
    }
    public void runGame(JFrame frame)
    {
-      AudioClip audioMain;
-      //String strPlayerName, strPlayerAlias;
-      URL urlMain = Interface.class.getResource("audioMain.wav");
-      audioMain = Applet.newAudioClip(urlMain);
-      Player player = new Player();
-      GameParameters game = new GameParameters();
-      audioMain.loop();
-      player.setName(displayWelcomeProtocols(frame));
-      startRegistration(player.getName(),player);
-      displayExtraTreasureFrame(player.getAlias(),frame,game);
-      displayExtraCreatureFrame(player.getAlias(),frame,game);
-      displayExtraKeyFrame(player.getAlias(),frame,game);
-      displayExtraFeatures(frame,player.getAlias(),game.getTreasureAmount(),game.getMonsterAmount(),game.getKeyAmount());
-      displayExtraFeatureCost(frame,player.getAlias(),calcExtraFeaturesCost(game),game);
- 
-      //displayRegistrationFee(player,game);    
+      // AudioClip audioMain;
+//       //String strPlayerName, strPlayerAlias;
+//       URL urlMain = Interface.class.getResource("audioMain.wav");
+//       audioMain = Applet.newAudioClip(urlMain);
+//       Player player = new Player();
+//       GameParameters game = new GameParameters();
+//       audioMain.loop();
+//       player.setName(displayWelcomeProtocols(frame));
+//       startRegistration(player.getName(),player);
+//       displayExtraTreasureFrame(player.getAlias(),frame,game);
+//       displayExtraCreatureFrame(player.getAlias(),frame,game);
+//       displayExtraKeyFrame(player.getAlias(),frame,game);
+//       displayExtraFeatures(frame,player.getAlias(),game.getTreasureAmount(),game.getMonsterAmount(),game.getKeyAmount());
+//       displayExtraFeatureCost(frame,player.getAlias(),calcExtraFeaturesCost(game),game);
+      Player player = new Player("juan","juanito","boy","libra",1997,1234.34);
+      GameParameters game = new GameParameters(1,1,1);
+      displayRegistrationFee(frame,player,game);    
       
    }
    public String displayWelcomeProtocols( JFrame frame)
@@ -376,31 +377,48 @@ class Interface extends RobertosSwinging
       amount = amount/100;
       return amount;
    }
-//    public void displayRegistrationFee(Player player, GameParameters game)
-//    {
-//       JLabel line1,line2,line3,line4,line5,line6,line7,line8,line9line10,line11;
-//       
-//       int extraFeatures = game.getMonsterAmount()+game.getKeyAmount()+game.getTreasureAmount();
-//       double basicCost,extraFeaturesCost,subtotal, fee, total;
-//       basicCost = getUserFee(getUserAge(player.getBirthYear())); 
-//       extraFeaturesCost =  extraFeatures * 1.25;
-//       subtotal = basicCost + extraFeaturesCost;
-//       fee = robertosRoundToPenny(subtotal*0.1);
-//       total = subtotal + fee;
-//       line1 = new JLabel(player.getName()+", aka "+player.getAlias()+", here's your tab:");
-//       line2 = new JLabel(""+basicCost+" - Basic Registration Fee - based on your age");
-//       line3 = new JLabel(""+extraFeaturesCost+ " - At $1.25 per feature for "+extraFeatures+" Extra Game Features of:");
-//       line4 = new JLabel(""+game.getTreasureAmount()+ " Moldy Spaghetti Bowl(s)");
-//       line5 = new JLabel(""+game.getMonsterAmount()+ " Monster(s)");
-//       line6 = new JLabel(""+game.getKeyAmount()+ " Key(s)");
-//       line7 = new JLabel("==============");
-//       line8 = new JLabel(""+subtotal+" - Subtotal");
-//       line9 = new JLabel(""+fee+" - Rounded ESCAPE Service Fee of 10%");
-//       line10 = new JLabel("==============");
-//       line11 = new JLabel(""+total+" - Total ESCAPE Registration Fee");
-//       JLabel[] lines = {line1,line2,line3,line4,line5,line6,line7,line8,line9line10,line11};
-//    }
-//    
+   public void displayRegistrationFee(JFrame frame, Player player, GameParameters game)
+   {
+      NumberFormat currencyFormater = NumberFormat.getCurrencyInstance();
+      JLabel line1,line2,line3,line4,line5,line6,line7,line8,line9,line10,line11;
+      JPanel panel = new JPanel();
+      int extraFeatures = game.getMonsterAmount()+game.getKeyAmount()+game.getTreasureAmount();
+      double basicCost,extraFeaturesCost,subtotal, fee, total;
+      basicCost = getUserFee(getUserAge(player.getBirthYear())); 
+      extraFeaturesCost =  extraFeatures * 1.25;
+      subtotal = basicCost + extraFeaturesCost;
+      fee = robertosRoundToPenny(subtotal*0.1);
+      total = subtotal + fee;
+      line1 = new JLabel(player.getName()+", aka "+player.getAlias()+", here's your tab:");
+      line2 = new JLabel(""+currencyFormater.format(basicCost)+" - Basic Registration Fee - based on your age");
+      line3 = new JLabel(""+currencyFormater.format(extraFeaturesCost)+ " - At $1.25 per feature for "+extraFeatures+" Extra Game Features of:");
+      line4 = new JLabel("      "+game.getTreasureAmount()+ " Moldy Spaghetti Bowl(s)");
+      line5 = new JLabel("      "+game.getMonsterAmount()+ " Monster(s)");
+      line6 = new JLabel("      "+game.getKeyAmount()+ " Key(s)");
+      line7 = new JLabel("==============");
+      line8 = new JLabel(""+currencyFormater.format(subtotal)+" - Subtotal");
+      line9 = new JLabel(""+currencyFormater.format(fee)+" - Rounded ESCAPE Service Fee of 10%");
+      line10 = new JLabel("==============");
+      line11 = new JLabel(""+currencyFormater.format(total)+" - Total ESCAPE Registration Fee");
+      JLabel[] lines = {line1,line2,line3,line4,line5,line6,line7,line8,line9,line10,line11};
+      for(int x = 0; x<lines.length;x++)
+      {
+         lines[x].setBounds(0,x*20,1000,30);
+         lines[x].setHorizontalAlignment(JLabel.LEFT);
+         lines[x].setFont(new Font("Determination Mono",Font.BOLD,18));
+         lines[x].setForeground(Color.BLACK);
+         panel.add(lines[x]);
+      }
+      panel.setBounds();
+      panel.setLayout(null);
+      frame.getContentPane().removeAll();
+      frame.setTitle("Title");
+      frame.add(panel);
+      frame.setVisible(true);
+      
+      
+   }
+   
    public void showMsgGameDialog(JFrame frame, String text, String title)
    {
       ArrayList<JLabel> list = new ArrayList<JLabel>();
