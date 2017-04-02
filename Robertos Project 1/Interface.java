@@ -21,23 +21,24 @@ class Interface extends RobertosSwinging
    }
    public void runGame(JFrame frame)
    {
-      // AudioClip audioMain;
-//       //String strPlayerName, strPlayerAlias;
-//       URL urlMain = Interface.class.getResource("audioMain.wav");
-//       audioMain = Applet.newAudioClip(urlMain);
-//       Player player = new Player();
-//       GameParameters game = new GameParameters();
-//       audioMain.loop();
-//       player.setName(displayWelcomeProtocols(frame));
-//       startRegistration(player.getName(),player);
-//       displayExtraTreasureFrame(player.getAlias(),frame,game);
-//       displayExtraCreatureFrame(player.getAlias(),frame,game);
-//       displayExtraKeyFrame(player.getAlias(),frame,game);
-//       displayExtraFeatures(frame,player.getAlias(),game.getTreasureAmount(),game.getMonsterAmount(),game.getKeyAmount());
-//       displayExtraFeatureCost(frame,player.getAlias(),calcExtraFeaturesCost(game),game);
-      Player player = new Player("juan","juanito","boy","libra",1997,1234.34);
-      GameParameters game = new GameParameters(1,1,1);
-      displayRegistrationFee(frame,player,game);    
+      AudioClip audioMain;
+      String strPlayerName, strPlayerAlias;
+      URL urlMain = Interface.class.getResource("audioMain.wav");
+      audioMain = Applet.newAudioClip(urlMain);
+      Player player = new Player();
+      GameParameters game = new GameParameters();
+      audioMain.loop();
+      player.setName(displayWelcomeProtocols(frame));
+      startRegistration(player.getName(),player);
+      displayExtraTreasureFrame(player.getAlias(),frame,game);
+      displayExtraCreatureFrame(player.getAlias(),frame,game);
+      displayExtraKeyFrame(player.getAlias(),frame,game);
+      displayExtraFeatures(frame,player.getAlias(),game.getTreasureAmount(),game.getMonsterAmount(),game.getKeyAmount());
+      displayExtraFeatureCost(frame,player.getAlias(),calcExtraFeaturesCost(game),game);
+     //  Player player = new Player("juan","juanito","boy","libra",1997,1234.34);
+//       GameParameters game = new GameParameters(1,1,1);
+      displayRegistrationFee(frame,player,game);
+        
       
    }
    public String displayWelcomeProtocols( JFrame frame)
@@ -380,7 +381,9 @@ class Interface extends RobertosSwinging
    public void displayRegistrationFee(JFrame frame, Player player, GameParameters game)
    {
       NumberFormat currencyFormater = NumberFormat.getCurrencyInstance();
-      JLabel line1,line2,line3,line4,line5,line6,line7,line8,line9,line10,line11;
+      JLabel line1,line2,line3,line4,line5,line6,line7,line8,line9,line10,line11,labelSoldier,labelBox;
+      labelSoldier = new JLabel();
+      labelBox = new JLabel();
       JPanel panel = new JPanel();
       int extraFeatures = game.getMonsterAmount()+game.getKeyAmount()+game.getTreasureAmount();
       double basicCost,extraFeaturesCost,subtotal, fee, total;
@@ -392,9 +395,9 @@ class Interface extends RobertosSwinging
       line1 = new JLabel(player.getName()+", aka "+player.getAlias()+", here's your tab:");
       line2 = new JLabel(""+currencyFormater.format(basicCost)+" - Basic Registration Fee - based on your age");
       line3 = new JLabel(""+currencyFormater.format(extraFeaturesCost)+ " - At $1.25 per feature for "+extraFeatures+" Extra Game Features of:");
-      line4 = new JLabel("      "+game.getTreasureAmount()+ " Moldy Spaghetti Bowl(s)");
-      line5 = new JLabel("      "+game.getMonsterAmount()+ " Monster(s)");
-      line6 = new JLabel("      "+game.getKeyAmount()+ " Key(s)");
+      line4 = new JLabel(""+game.getTreasureAmount()+ " Moldy Spaghetti Bowl(s)");
+      line5 = new JLabel(""+game.getMonsterAmount()+ " Monster(s)");
+      line6 = new JLabel(""+game.getKeyAmount()+ " Key(s)");
       line7 = new JLabel("==============");
       line8 = new JLabel(""+currencyFormater.format(subtotal)+" - Subtotal");
       line9 = new JLabel(""+currencyFormater.format(fee)+" - Rounded ESCAPE Service Fee of 10%");
@@ -403,19 +406,23 @@ class Interface extends RobertosSwinging
       JLabel[] lines = {line1,line2,line3,line4,line5,line6,line7,line8,line9,line10,line11};
       for(int x = 0; x<lines.length;x++)
       {
-         lines[x].setBounds(0,x*20,1000,30);
-         lines[x].setHorizontalAlignment(JLabel.LEFT);
+         lines[x].setBounds(0,200+x*20,1000,30);
+         lines[x].setHorizontalAlignment(JLabel.CENTER);
          lines[x].setFont(new Font("Determination Mono",Font.BOLD,18));
-         lines[x].setForeground(Color.BLACK);
+         lines[x].setForeground(Color.WHITE);
          panel.add(lines[x]);
       }
-      panel.setBounds();
+      labelSoldier.setIcon(new ImageIcon(editImage("mediaSoldierGif.gif",220,200)));
+      labelSoldier.setBounds(0,0,1000,300);
+      labelSoldier.setVerticalAlignment(JLabel.TOP);
+      labelSoldier.setHorizontalAlignment(JLabel.CENTER);
+      panel.add(labelSoldier);
       panel.setLayout(null);
       frame.getContentPane().removeAll();
-      frame.setTitle("Title");
+      frame.setTitle("Registration Fee");
       frame.add(panel);
       frame.setVisible(true);
-      
+      showMsgGameDialog(frame,"Press ENTER to continue, "+player.getAlias()+"...","Registration Fee");
       
    }
    
