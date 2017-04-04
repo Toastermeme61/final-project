@@ -40,7 +40,7 @@ class Interface extends RobertosSwinging
 //       GameParameters game = new GameParameters(1,1,1);
       totalCost = displayRegistrationFeeFrame(frame,player,game);
       displayAccountBalanceFrame(frame,player,totalCost);
-        
+      displayExitFrame(frame, player);
       
    }
    public String displayWelcomeProtocols( JFrame frame)
@@ -437,7 +437,8 @@ class Interface extends RobertosSwinging
    public void displayAccountBalanceFrame(JFrame frame,Player player, double total)
    {
       NumberFormat currencyFormater = NumberFormat.getCurrencyInstance();
-      JLabel line1,line2,line3,line4,line5,line6,line7,line8,line9,line10,line11;
+      JLabel line1,line2,line3,line4,line5,line6,line7,line8,line9,line10,line11,labelBox;
+      labelBox = new JLabel();
       JPanel panel = new JPanel();
       line1 =  new JLabel("UNDERTALE Escape from the Underground Account Balance");
       line2 = new JLabel("===========================");
@@ -459,12 +460,21 @@ class Interface extends RobertosSwinging
          lines[x].setForeground(Color.WHITE);
          panel.add(lines[x]);
       }
+      labelBox.setIcon(new ImageIcon(editImage("dialogueBox.png",700,250)));
+      labelBox.setBounds(0,22,1000,600);
+      labelBox.setHorizontalAlignment(JLabel.CENTER);
+      panel.add(labelBox);
       panel.setLayout(null);
       frame.getContentPane().removeAll();
-      frame.setTitle("Registration Fee");
+      frame.setTitle("Account Balance");
       frame.add(panel);
       frame.setVisible(true);
       showMsgGameDialog(frame,"Press ENTER to continue, "+player.getAlias()+"...","UNDERTALE");
+   }
+   public void displayExitFrame(JFrame frame, Player player)
+   {
+      displayFarewellFrame(frame, player.getName());
+      displayDocumentation();
    }
    public void showMsgGameDialog(JFrame frame, String text, String title)
    {

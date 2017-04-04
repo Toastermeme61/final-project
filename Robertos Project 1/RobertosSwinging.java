@@ -540,15 +540,15 @@ public class RobertosSwinging
       
       String strIDInfo = "                                               "
                         +"       Programmer          :  Cardenas Roberto "               
-   		               +"       Assignment#         :  TA #SwingingSP   "              	
-   		               +"       Assignment Name     :  Swinging         "
+   		               +"       Assignment#         :  Program #1       "              	
+   		               +"       Assignment Name     :  Are you game?    "
    		               +"       Course # and Title  :  CISC 190 - Java  "  	
    		               +"       Class Meeting Time  :  TTH 1:00 – 4:05  "
   		                  +"       Instructor          :  Professor Forman "
   		                  +"       Hours               :  14:00            "
    		               +"       Difficulty          :  5/10             "
-   		               +"       Completion Date     :  03/07/2017       "
-   		               +"       File Name           :  RobertosSwinging ";
+   		               +"       Completion Date     :  04/04/2017       "
+   		               +"       File Name           :  Roberto_P_1      ";
                         
       String strCredits = "                                                           "
                          +"  Acknowledge those who helped you and whom you helped     "
@@ -596,17 +596,26 @@ public class RobertosSwinging
                             +"    ndertale-Font                                                      ";
                             
 
-      String strStars =   " 1.- Be ecological and re-use the same JFrame to display everything  "
-                         +" 2.- Effectvely use 3 graphic images in one of your JFrames          "
-                         +" 3.- Effectively use multiple fonts and colors in one JFrame         "
-                         +" 4.- Effectively use setBounds to align text and graphics in JFrames "
-                         +" 5.- Effectively use paintComponent to display something dazzling(2) "
-                         +" 6.- Effectively use 3 new advanced features:                        "
-                         +"        -If-Else statements, ArrayList, UIManager                    "
-                         +" 7.- Add pizzaz: Theme related background music                      "
-                         +" 8.- Hand in and demo early(2)                                       "
-                         +" 9.- Display current date and time                                   "
-                         +"                         Total STARS: 11                             ";
+      String strStarsSwinging =   " 1.- Be ecological and re-use the same JFrame to display everything  "
+                          +" 2.- Effectvely use 3 graphic images in one of your JFrames          "
+                          +" 3.- Effectively use setBounds to align text and graphics in JFrames "
+                          +" 4.- Effectively use paintComponent to display something dazzling(2) "
+                          +" 5.- Effectively use 3 new advanced features:                        "
+                          +"        -If-Else statements, ArrayList, UIManager                    "
+                          +" 6.- Add pizzaz: Theme related background music                      "
+                          +" 7.- Hand in and demo early(2)                                       "
+                          +" 8.- Display current date and time                                   "
+                          +"                     Total Swinging STARS = 10                       "
+                          +"                                                                     "
+                          +"                        Total STARS  = 16                            ";
+                          
+      String strStarsProject1 =   " 1.- Insert reasonable \"default\" values for ALL JOptionPane inputs   "
+                                 +" 2.- Demo Task A.1 through B.3 by THU 16 MARCH                       "
+                                 +" 3.- Demo Task A.1 through B.7 by THU 16 MARCH                       "
+                                 +" 4.- Demo Task A.1 through B.7 by Tue 21 MARCH                       "
+                                 +" 5.- Submit storyboard as a Powerpoint presentation (2)              "
+                                 +"                   Total Project 1 STARS = 6                         ";
+                                 
                          
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       
@@ -631,7 +640,10 @@ public class RobertosSwinging
       audioPressOK.play();
       
       //Display STARS
-      JOptionPane.showMessageDialog(null,editText("STARS",strStars,LEFT,14,68),"STARS",JOptionPane.PLAIN_MESSAGE);
+      JOptionPane.showMessageDialog(null,editText("Project 1 STARS",strStarsProject1,LEFT,14,68),"STARS",JOptionPane.PLAIN_MESSAGE);
+      audioPressOK.play();
+      
+      JOptionPane.showMessageDialog(null,editText("Swinging STARS",strStarsSwinging,LEFT,14,68),"STARS",JOptionPane.PLAIN_MESSAGE);
       audioPressOK.play();
    }
    
