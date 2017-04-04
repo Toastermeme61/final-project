@@ -295,17 +295,20 @@ public class RobertosSwinging
 
       ///////////////////////////////////////////////////////////////
 
-      String text, name;
+      String text, name, strDefault;
+      strDefault = "";
       
       ///////////////////////////////////////////////////////////////
       
       if (counter ==0)
       {
          text = "Write your name human...";
+         strDefault = "Fritz";
       }
       else if (counter == 1)
       {
          text = "Dont worry about it. Everybody forgets their own name once in a while. Try again...";
+         strDefault = "Dumass";
       }
       else if (counter ==2)
       {
@@ -319,7 +322,7 @@ public class RobertosSwinging
       //Ask user for name
       name =JOptionPane.showInputDialog
       (null,editText(text,20),
-      "User Login",JOptionPane.PLAIN_MESSAGE);
+      "User Login",JOptionPane.PLAIN_MESSAGE,null,null,strDefault).toString();
       audioPressOK.play();
       return name;
    }
@@ -639,10 +642,11 @@ public class RobertosSwinging
       JOptionPane.showMessageDialog(null,editText("MEDIA 3/3",strMediaThree,LEFT,13,70),"Media",JOptionPane.PLAIN_MESSAGE);
       audioPressOK.play();
       
-      //Display STARS
+      //Display Project 1 STARS
       JOptionPane.showMessageDialog(null,editText("Project 1 STARS",strStarsProject1,LEFT,14,68),"STARS",JOptionPane.PLAIN_MESSAGE);
       audioPressOK.play();
       
+      //Display Swinging STARS
       JOptionPane.showMessageDialog(null,editText("Swinging STARS",strStarsSwinging,LEFT,14,68),"STARS",JOptionPane.PLAIN_MESSAGE);
       audioPressOK.play();
    }
