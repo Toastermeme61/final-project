@@ -412,10 +412,14 @@ class Interface extends RobertosSwinging
          lines[x].setForeground(Color.WHITE);
          panel.add(lines[x]);
       }
-      labelSoldier.setIcon(new ImageIcon(editImage("mediaSoldierGif.gif",220,200)));
+      labelBox.setIcon(new ImageIcon(editImage("dialogueBox.png",700,250)));
+      labelBox.setBounds(0,22,1000,600);
+      labelBox.setHorizontalAlignment(JLabel.CENTER);
+      labelSoldier.setIcon(new ImageIcon(editImage("mediaSoldierGif.gif",200,190)));
       labelSoldier.setBounds(0,0,1000,300);
       labelSoldier.setVerticalAlignment(JLabel.TOP);
       labelSoldier.setHorizontalAlignment(JLabel.CENTER);
+      panel.add(labelBox);
       panel.add(labelSoldier);
       panel.setLayout(null);
       frame.getContentPane().removeAll();
