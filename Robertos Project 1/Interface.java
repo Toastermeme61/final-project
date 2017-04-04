@@ -25,6 +25,7 @@ class Interface extends RobertosSwinging
       String strPlayerName, strPlayerAlias;
       URL urlMain = Interface.class.getResource("audioMain.wav");
       audioMain = Applet.newAudioClip(urlMain);
+      double totalCost;
       Player player = new Player();
       GameParameters game = new GameParameters();
       audioMain.loop();
@@ -37,7 +38,8 @@ class Interface extends RobertosSwinging
       displayExtraFeatureCost(frame,player.getAlias(),calcExtraFeaturesCost(game),game);
      //  Player player = new Player("juan","juanito","boy","libra",1997,1234.34);
 //       GameParameters game = new GameParameters(1,1,1);
-      displayRegistrationFee(frame,player,game);
+      totalCost = displayRegistrationFeeFrame(frame,player,game);
+      displayAccountBalanceFrame(frame,player,totalCost);
         
       
    }
@@ -378,7 +380,7 @@ class Interface extends RobertosSwinging
       amount = amount/100;
       return amount;
    }
-   public void displayRegistrationFee(JFrame frame, Player player, GameParameters game)
+   public double displayRegistrationFeeFrame(JFrame frame, Player player, GameParameters game)
    {
       NumberFormat currencyFormater = NumberFormat.getCurrencyInstance();
       JLabel line1,line2,line3,line4,line5,line6,line7,line8,line9,line10,line11,labelSoldier,labelBox;
@@ -426,10 +428,44 @@ class Interface extends RobertosSwinging
       frame.setTitle("Registration Fee");
       frame.add(panel);
       frame.setVisible(true);
-      showMsgGameDialog(frame,"Press ENTER to continue, "+player.getAlias()+"...","Registration Fee");
+      showMsgGameDialog(frame,"Press ENTER to continue, "+player.getAlias()+"...","UNDERTALE");
+      return total;
+      //UI.put("OptionPane.minimumSize", new Dimension(1000,300));
+      //JOptionPane.showMessageDialog(null,panel,"UNDERTALE",JOptionPane.PLAIN_MESSAGE);
       
    }
-   
+   public void displayAccountBalanceFrame(JFrame frame,Player player, double total)
+   {
+      NumberFormat currencyFormater = NumberFormat.getCurrencyInstance();
+      JLabel line1,line2,line3,line4,line5,line6,line7,line8,line9,line10,line11;
+      JPanel panel = new JPanel();
+      line1 =  new JLabel("UNDERTALE Escape from the Underground Account Balance");
+      line2 = new JLabel("===========================");
+      line3 = new JLabel("");
+      line4 = new JLabel("Summary of Account for "+player.getName()+", aka "+player.getAlias()+":");
+      line5 = new JLabel("");
+      line6 = new JLabel(currencyFormater.format(player.getBalance())+" - Amount deposited into your account");
+      line7 = new JLabel(currencyFormater.format(total)+" - Total ESCAPE Registration Fee");
+      line8 = new JLabel("================");
+      line9 = new JLabel(currencyFormater.format(robertosRoundToPenny(player.getBalance()-total))+" - Current Account Balance");
+      line10 = new JLabel("");
+      line11 = new JLabel("Have a nice day human, or not. I don't care...");
+      JLabel[] lines = {line1,line2,line3,line4,line5,line6,line7,line8,line9,line10,line11};
+      for(int x = 0; x<lines.length;x++)
+      {
+         lines[x].setBounds(0,200+x*20,1000,30);
+         lines[x].setHorizontalAlignment(JLabel.CENTER);
+         lines[x].setFont(new Font("Determination Mono",Font.BOLD,18));
+         lines[x].setForeground(Color.WHITE);
+         panel.add(lines[x]);
+      }
+      panel.setLayout(null);
+      frame.getContentPane().removeAll();
+      frame.setTitle("Registration Fee");
+      frame.add(panel);
+      frame.setVisible(true);
+      showMsgGameDialog(frame,"Press ENTER to continue, "+player.getAlias()+"...","UNDERTALE");
+   }
    public void showMsgGameDialog(JFrame frame, String text, String title)
    {
       ArrayList<JLabel> list = new ArrayList<JLabel>();
