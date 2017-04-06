@@ -1,17 +1,112 @@
+/***************************************************************   
+***************************************************************    
+***************************************************************    
+                                                         			    		   	          
+                   			ID INFORMATION                         		          
+                                                        			    		                      
+   		Programmer			:		Cardenas Roberto                
+   		Assignment #		:   	Program #1                    	
+   		Assignment Name   :	   Are you Game?
+   		Course # and Title:	   CISC 190 - Java    	
+   		Class Meeting Time:	   TTH 1:00 – 4:05	
+  		   Instructor			:	   Professor Forman 
+  		   Hours			   	:	   14:00
+   		Difficulty			:	   5/10			
+   		Completion Date	:	   04/04/2017 	
+   		File Name			:  	Roberto_P_1
+
+***************************************************************
+***************************************************************
+
+                   	PROGRAM DESCRIPTION   
+                          
+ Showcases the introduction, and farewell to the game I will be 
+ developing as my final project for this class. Using graphics,
+ music and the font from the original Undertale game, to display
+ a an aesthetic that is similar to the original.
+
+***************************************************************
+***************************************************************
+
+                 CUSTOM-DEFINED METHODS LIST
+         -runGame()
+    
+
+***************************************************************
+***************************************************************
+
+                         CREDITS	                          		
+
+   	Acknowledge those who helped you and whom you helped  	
+      Remember the “triangle of learning”:        		
+      
+   	Thanks for assistance and inspiration from:           			
+         www.tutorialspoint.com/java 
+         www.stackoverflow.com 
+         Professor Forman, Yvan
+      
+      Thanks for the opportunity to assist and inspire:
+         Yvan
+           
+***************************************************************
+***************************************************************
+                        
+                           MEDIA
+Audio:
+   -All audio files taken from the undertale main folder
+Pictures:
+   -Undertale TitleScreen:
+      http://fontmeme.com/images/undertale-font.jpg
+   -Sans Gif (Short skeleton):
+      http://vignette2.wikia.nocookie.net/undertale/images/2/29/Animaci%
+      C3%B3n_Sans.gif/revision/latest?cb=20151125200713&path-prefix=es
+   -Papyrus Gif (Tall skeleton):
+      http://pa1.narvii.com/6168/3000e51c2808e347abfdaa789ea48e81379ed25
+      0_hq.gif
+   -Sans and Papyrus Gif (Dancing skeletons):
+      https://media.tenor.co/images/9dbb6676d6fe8ca44adc62f097646480/raw
+   -Temmy Gif(Twitching cat):
+      http://giphy.com/gifs/undertale-vrpg7CCZERhsY
+   -Blind Doggo Gif(Dog holding knives):
+      http://giphy.com/gifs/undertale-b78LAtUEw9DBS
+   -Mettaton Gif(Robot):
+      http://vignette1.wikia.nocookie.net/undertale/images/5/58/Mettato
+      n.gif/revision/latest?cb=20151111052225
+   -Heart Icon(Pixelated red heart):
+      http://img03.deviantart.net/9855/i/2016/130/b/7/undertale___pixel_
+      heart_thingy_by_aspalax-da1zkgz.png
+   -Flowey Gif:
+      http://vignette2.wikia.nocookie.net/villains/images/0/09/Flowey_th
+      e_flower.gif/revision/latest?cb=20160128235934
+Font
+   -Undertale Font: Determination Mono
+      https://www.behance.net/gallery/31268855/Determination-Better-U
+      ndertale-Font
+
+***************************************************************
+**************************************************************/
 import javax.swing.*; //JFrame
 import java.net.URL;
 import java.applet.*;//AudioClip, Applet
 public class Roberto_P_1
 {
-   Interface objectInterface =  new Interface();
+  
    public static void main (String[] args)
    {
+      ///////////////////////////////////////////////////////////
+      
+      //Local Variable/Object declarations and definiitons
+      
+      //////////////////////////////////////////////////////////
+      
       Roberto_P_1 objectMain = new Roberto_P_1();
       JFrame frameMain = new JFrame();
       
+      //////////////////////////////////////////////////////////
+      
       //Set frameMain properties
       frameMain.setSize(1000,720);
-      //frameMain.setIconImage(frameIcon.getImage());
+      frameMain.setIconImage(new ImageIcon("mediaHeartIcon.png").getImage());
       frameMain.setLocationRelativeTo(null);
       frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       
@@ -19,106 +114,36 @@ public class Roberto_P_1
       objectMain.runGame(frameMain);
 
    }
+/******************************************************************************
+*******************************************************************************
+
+							START METHOD DECLARATIONS AND DEFINITIONS
+								 (Best to appear alphabetically)
+
+*******************************************************************************
+******************************************************************************/
+
+/******************************************************************************
+
+  NAME:     runGame()
+  DESCRIPTION:  Runs the game by accessing the methods in the Interface class
+  CALLS: Interface.runGame()
+  CALLED BY: None
+
+******************************************************************************/
+
    public void runGame(JFrame frame)
    {
-      AudioClip audioMain;
-      URL urlMain = Roberto_P_1.class.getResource("audioMain.wav");
-      audioMain = Applet.newAudioClip(urlMain);
-      Player objectPlayer = new Player();
-      GameParameters gameParameters = new GameParameters();
-      
-      audioMain.loop();
-      objectPlayer.setName(displayWelcomeProtocols(frame));
-      startRegistration(objectPlayer.getName(),objectPlayer);
-      displayExtraTreasureFrame(objectPlayer.getAlias(),frame,gameParameters);
-      displayExtraCreatureFrame(objectPlayer.getAlias(),frame,gameParameters);
-      displayExtraKeyFrame(objectPlayer.getAlias(),frame,gameParameters);
-      displayExtraFeatures(frame,objectPlayer.getAlias(),gameParameters.getTreasureAmount(),gameParameters.getMonsterAmount(),gameParameters.getKeyAmount());
-      displayExtraFeatureCost(frame,objectPlayer.getAlias(),calcExtraFeaturesCost(gameParameters),gameParameters);
-      //objectInterface.runGame(frame);
-      
+      Interface objectInterface =  new Interface();
+      objectInterface.runGame(frame);
    }
-   public String displayWelcomeProtocols(JFrame frame)
-   {
-      String name = "";
-      int flag = 1;
-      objectInterface.displayWelcomeFrame(frame);
-      while (flag != 0)
-      {
-         name = objectInterface.getUserName();
-         flag = objectInterface.displayUserName(name);
-      }
-      objectInterface.displayInformation(name); 
-      return name;
-   }
-   public void displayInformation(String name)
-   {
-      objectInterface.displayInformation(name);
-   }
-   public void startRegistration(String name, Player player)
-   {
-      //objectInterface.startRegistration(name,player);
-      String alias,gender,sign;
-      int year;
-      double balance;
-      player.setAlias(getPlayerAlias(name));
-      alias = player.getAlias();
-      player.setGender(getPlayerGender(alias));
-      gender = player.getGender();
-      player.setSign(getPlayerAstroSign(alias));
-      sign = player.getSign();
-      player.setBirthYear(getPlayerBirthYear(alias));
-      year = player.getBirthYear();
-      player.setBalance(getPlayerDepositAmount(alias)); 
-      balance = player.getBalance();
-      displayPlayerInformation(alias,gender,sign,year,balance);
-   }
-   public String getPlayerAlias(String name)
-   {
-      return objectInterface.getPlayerAlias(name);
-   }
-   public String getPlayerGender(String alias)
-   {
-      return objectInterface.getPlayerGender(alias);
-   }
-   public String getPlayerAstroSign(String alias)
-   {
-      return objectInterface.getPlayerAstroSign(alias);
-   }
-   public int getPlayerBirthYear(String alias)
-   {
-      return objectInterface.getPlayerBirthYear(alias);
-   }
-   public double getPlayerDepositAmount(String alias)
-   {
-      return objectInterface.getPlayerDepositAmount(alias);
-   }
-   public void displayPlayerInformation(String alias, String gender, String sign, int year, double amount)
-   {
-      objectInterface.displayPlayerInformation(alias,gender,sign,year,amount);
-   }
-   public void displayExtraTreasureFrame(String alias, JFrame frame, GameParameters game)
-   {
-      objectInterface.displayExtraTreasureFrame(alias,frame,game);      
-   }
-   public void displayExtraCreatureFrame(String alias, JFrame frame, GameParameters game)
-   {
-      objectInterface.displayExtraCreatureFrame(alias,frame,game);
-   }
-   public void displayExtraKeyFrame(String alias, JFrame frame, GameParameters game)
-   {
-      objectInterface.displayExtraKeyFrame(alias,frame,game);
-   }
-   public void displayExtraFeatures(JFrame frame, String alias, int treasure, int creatures, int keys)
-   {
-      objectInterface.displayExtraFeatures(frame,alias,treasure,creatures,keys);
-   }
-   public double calcExtraFeaturesCost(GameParameters game)
-   {
-      return objectInterface.calcExtraFeaturesCost(game);
-   }
-   public void displayExtraFeatureCost(JFrame frame, String alias, double cost,GameParameters game)
-   {
-      objectInterface.displayExtraFeatureCost(frame, alias, cost, game);
-   }
+
+/******************************************************************************
+*******************************************************************************
+
+							END METHOD DECLARATIONS AND DEFINITIONS
+
+*******************************************************************************
+******************************************************************************/
+
 }
