@@ -162,6 +162,7 @@ public class RobertosSwinging
       frame.setTitle("Welcome to Roberto's Escape from the Undergound!!!");
       frame.add(panel);
       frame.setVisible(true);
+      JOptionPane.showMessageDialog(null,editText("Welcome to the Escape Game!",20));
       
    }
    
@@ -490,7 +491,7 @@ public class RobertosSwinging
                           +" 3.- Effectively use setBounds to align text and graphics in JFrames "
                           +" 4.- Effectively use paintComponent to display something dazzling(2) "
                           +" 5.- Effectively use 3 new advanced features:                        "
-                          +"        -If-Else statements, ArrayList, UIManager                    "
+                          +"        -Else-If statements, ArrayList, UIManager                    "
                           +" 6.- Add pizzaz: Theme related background music                      "
                           +" 7.- Hand in and demo early(2)                                       "
                           +" 8.- Display current date and time                                   "
