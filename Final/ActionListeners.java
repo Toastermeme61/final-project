@@ -9,7 +9,8 @@ class MouseListener extends MouseAdapter
    ArrayList<Location> monsterLocationList =  new ArrayList<Location>();
    ArrayList<Location> keyLocationList = new ArrayList<Location>();
    ArrayList<Location> inventoryLocationList = new ArrayList<Location>();
-   MouseListener(GameFrame frame, InventoryFrame inventory)
+   ArrayList<Location> miscLocationList = new ArrayList<Location>();
+   MouseListener(SceneFrame frame, InventoryFrame inventory)
    {
       currentFrame = frame;
       inventoryLocationList.add(new Location(700,498,800,598,inventory));
@@ -19,17 +20,22 @@ class MouseListener extends MouseAdapter
       int x,y;
       x = e.getX();
       y = e.getY();
-      Location doorLocation, monsterLocation, treasureLocation, keyLocation, inventoryLocation;
+      Location doorLocation, monsterLocation, treasureLocation, keyLocation, inventoryLocation, miscLocation;
       doorLocation = validateLocation(doorLocationList,x,y);
       treasureLocation = validateLocation(treasureLocationList,x,y);
       monsterLocation = validateLocation(monsterLocationList,x,y);
       keyLocation = validateLocation(keyLocationList,x,y);
       inventoryLocation = validateLocation(inventoryLocationList,x,y);
+      miscLocation = validateLocation(miscLocationList,x,y);
       
       if (doorLocation.validate() != 0)
       {
          
          moveToRoom(doorLocation.getFrame());
+      }
+      else if(miscLocation.validate() != 0)
+      {
+         moveToRoom(miscLocation.getFrame());
       }
       else if (treasureLocation.validate() != 0)
       {
@@ -55,6 +61,10 @@ class MouseListener extends MouseAdapter
          //counter ++;
          JOptionPane.showMessageDialog(null,"Nothing");
       }
+   }
+   public void addMiscLocation(int x1, int y1, int x2, int y2, GameFrame frame)
+   {
+      miscLocationList.add(new Location(x1,y1,x2,y2,frame));
    }
    public void addDoorLocation(int x1, int y1, int x2, int y2, GameFrame frame)
    {

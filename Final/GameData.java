@@ -11,30 +11,42 @@ import java.util.*;
 //       UI.put("Panel.background",Color.BLACK);
 //       Player player = new Player();
 //       JFrame frame = new JFrame();
-//       ScreenFrame frame1,frame2;
+//       SceneFrame frame1,frame2,frame3;
 //       MonsterFrame monster1,monster2;
+//       MiscFrame misc;
 //       TreasureFrame treasure;
 //       InventoryFrame inventory = new InventoryFrame(player);
 //       KeyFrame key;
-//       MouseListener listener1, listener2;
-//       frame1 = new ScreenFrame("entryFlowerBed.png");
-//       frame2 = new ScreenFrame("indoor1TheRuins.png");
+//       MouseListener listener1, listener2,listener3;
+//       frame1 = new SceneFrame("entryFlowerBed.png");
+//       frame2 = new SceneFrame("indoor1TheRuins.png");
+//       frame3 = new SceneFrame("indoor1TheRuins.png");
 //       monster1 = new MonsterFrame("mediaBlindDogGif.gif","Blind Doggo",player);
-//       //monster2 =  new MonsterFrame("mediaMuffetGif.gif","Muffet");
+//      // monster2 =  new MonsterFrame("mediaMuffetGif.gif","Muffet");
 //       treasure = new TreasureFrame("mediaSpaghetti.png", "Moldy Spaghetti Bowl",player);
 //       key = new KeyFrame("mediaHeartSoulGif.gif","Human Soul",player);
+//       misc = new MiscFrame();
+//       misc.setText("Thats you dummy!");
 //       listener1 = new MouseListener(frame1, inventory);
 //       listener2 = new MouseListener(frame2, inventory);
+//       listener3 = new MouseListener(frame3, inventory);
 //       
 //       listener1.addDoorLocation(669,415,793,503,frame2);
 //       listener1.addMonsterLocation(301,300,450,404,monster1);
+//       listener1.addMiscLocation(358,300,408,383,misc);
 //      
 //       listener2.addKeyLocation(240,215,276,252,key);
 //       listener2.addTreasureLocation(295,362,502,595,treasure);
-//       listener2.addDoorLocation(362,83,428,177,frame1);
+//       listener2.addDoorLocation(362,83,428,177,frame3);
+//       
+//       listener3.addKeyLocation(240,215,276,252,key);
+//       listener3.addTreasureLocation(295,362,502,595,treasure);
+//       listener3.addDoorLocation(362,83,428,177,frame1);
+//       
 //       
 //       frame1.addMouseListener(listener1);
 //       frame2.addMouseListener(listener2);
+//       frame3.addMouseListener(listener3);
 //       frame1.setVisible(frame);
 //    }
 // }
@@ -89,11 +101,10 @@ class GameFrame
    JFrame frame =  new JFrame();
    JPanel panel =  new JPanel();
    String imageFileName;
-   Interface userInterface = new Interface();
    GameFrame(String image)
    {
       imageFileName = image;
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      
    }
    public JFrame getFrame()
    {
@@ -105,11 +116,12 @@ class GameFrame
    }
 }
 
-class ScreenFrame extends GameFrame
+class SceneFrame extends GameFrame
 {
-   ScreenFrame(String imageFileName)
+   SceneFrame(String imageFileName)
    {
       super(imageFileName);
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       setupFrame();
    }
    public void setupFrame()
@@ -289,20 +301,65 @@ class KeyFrame extends SubGameFrame
       frame.add(panel);
    }
 }
+class MiscFrame extends GameFrame
+{
+   JLabel text = new JLabel("");
+   JLabel image = new JLabel();
+   MiscFrame(String text)
+   {
+      super("mediaTemmyGif.gif");
+      this.text.setText(text);
+      setupFrame();
+   }
+   public void setupFrame()
+   {
+      JButton okButton = new JButton("Ok");
+      image.setIcon(new ImageIcon(imageFileName));
+      image.setBounds(0,40,600,350);
+      image.setHorizontalAlignment(JLabel.CENTER);
+      image.setVerticalAlignment(JLabel.TOP);
+      
+      text.setBounds(0,30,600,350);
+      text.setHorizontalAlignment(JLabel.CENTER);
+      text.setVerticalAlignment(JLabel.CENTER);
+      text.setFont(new Font ("Determination Mono",Font.BOLD,15));
+      text.setForeground(Color.WHITE);
+      
+      okButton.setBounds(225,280,150,20);
+      okButton.addActionListener(new ActionListener()
+         {
+            public void actionPerformed(ActionEvent e)
+            {
+               
+               getFrame().setVisible(false);
+            }
+         }
+         );
+      
+      panel.add(okButton);
+      panel.setLayout(null);
+      panel.add(image);
+      panel.add(text);
+      frame.add(panel);
+      frame.setSize(600,350);
+      frame.setLocationRelativeTo(null);
+   }
+   public void setVisible(JFrame previousFrame)
+   {
+      getFrame().setVisible(true);
+   }
+}
 class InventoryFrame extends GameFrame
 {
    Player player;
-   JLabel textKeyLabel ;
-   JLabel textTreasureLabel ;
-   JLabel textBalanceLabel;
+   JLabel textKeyLabel = new JLabel() ;
+   JLabel textTreasureLabel =  new JLabel() ;
+   JLabel textBalanceLabel = new JLabel();
       
    InventoryFrame(Player player)
    {
       super("mediaInventory.png");
       this.player = player;
-      textKeyLabel = new JLabel();
-      textTreasureLabel = new JLabel();
-      textBalanceLabel = new JLabel();
       setupFrame();
    }
    public void setupFrame()
@@ -358,6 +415,7 @@ class InventoryFrame extends GameFrame
       panel.setLayout(null);
       frame.setSize(500,598);
       frame.setLocationRelativeTo(null);
+      frame.setBackground(Color.BLACK);
       frame.add(panel);
    }
    public void setVisible(JFrame previousFrame)
