@@ -452,6 +452,22 @@ class GameParameters
    {
       masterGameType = true;     
    }
+   public boolean validateMaster()
+   {
+      return extraMonster;
+   }
+   public boolean validateExtraMonster()
+   {
+      return extraMonster;
+   }
+   public boolean validateExtraKey()
+   {
+      return extraKey;
+   }
+   public boolean validateExtraTreasure()
+   {
+      return extraTreasure;
+   }
 }
 class Player
 {

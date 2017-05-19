@@ -7,7 +7,7 @@ public class RobertoFinalEscape
    //UIManager UI = new UIManager();
    DialogueManager DM = new DialogueManager();
    Player player =  new Player();
-   GameParameters game = new GameParameters();
+   GameParameters gameParameters = new GameParameters();
    public static void main(String[] args)
    {
       JFrame frameMain = new JFrame("Undertale");
@@ -15,8 +15,9 @@ public class RobertoFinalEscape
       frameMain.setSize(1000,720);
       frameMain.setLocationRelativeTo(null);
       frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      //finalEscape.showWelcomeFrame(frameMain);
-      finalEscape.showFeatureSelectFrame(frameMain);
+      finalEscape.showWelcomeFrame(frameMain);
+      //finalEscape.showFeatureSelectFrame(frameMain);
+      //finalEscape.showRegistrationInfoFrame(frameMain, 9.75, "Lazy Bones");
    }
 /******************************************************************************
 *******************************************************************************
@@ -93,7 +94,7 @@ public class RobertoFinalEscape
       labelPapyrus.setHorizontalAlignment(JLabel.RIGHT);
       labelPapyrus.setVerticalAlignment(JLabel.CENTER);
       
-      overviewButton.setBounds(225,320,150,20);
+      setupButton(overviewButton, 225, 320);
       overviewButton.addActionListener( new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
@@ -103,7 +104,7 @@ public class RobertoFinalEscape
          }
       );
       
-      loginButton.setBounds(425,320,150,20);
+      setupButton(loginButton,425,320);
       loginButton.addActionListener( new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
@@ -113,7 +114,7 @@ public class RobertoFinalEscape
          }
       );
       
-      exitButton.setBounds(625,320,150,20);
+      setupButton(exitButton,625,320);
       exitButton.addActionListener( new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
@@ -165,7 +166,7 @@ public class RobertoFinalEscape
       purposeLabel.setHorizontalAlignment(JLabel.CENTER);
       purposeLabel.setVerticalAlignment(JLabel.TOP);
       
-      backButton.setBounds(425,600,150, 20);
+      setupButton(backButton,425,600);
       backButton.addActionListener( new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
@@ -224,7 +225,7 @@ public class RobertoFinalEscape
       warningLabel.setForeground(Color.WHITE);
       warningLabel.setFont(new Font("Determination Mono",Font.BOLD,16));
       
-      submitButton.setBounds(425, 400, 150, 20);
+      setupButton(submitButton,425,400);
       submitButton.addActionListener( new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
@@ -236,7 +237,7 @@ public class RobertoFinalEscape
                   player.setName(setUserName(pin));
                   if (password.equalsIgnoreCase("master"))
                   {
-                     game.enableMaster();
+                     gameParameters.enableMaster();
                   }
                   showRegistrationFrame(frame);
                }
@@ -250,7 +251,7 @@ public class RobertoFinalEscape
          }
       );
       
-      exitButton.setBounds(425,470,150,20);
+      setupButton(exitButton,425,470);
       exitButton.addActionListener( new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
@@ -479,7 +480,7 @@ public class RobertoFinalEscape
       confirmLabel.setForeground(Color.WHITE);
       confirmLabel.setFont(new Font("Determination Mono",Font.BOLD,16));
       
-      submitButton.setBounds(250, 620, 150,20);
+      setupButton(submitButton, 250, 620);
       submitButton.addActionListener(new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
@@ -495,7 +496,7 @@ public class RobertoFinalEscape
          }
       );
       
-      continueButton.setBounds(425, 620, 150,20);
+      setupButton(continueButton,425,620);
       continueButton.addActionListener(new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
@@ -505,7 +506,7 @@ public class RobertoFinalEscape
          }
       );
       
-      resetButton.setBounds(600,620,150,20);
+      setupButton(resetButton, 600, 620);
       resetButton.addActionListener(new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
@@ -601,46 +602,51 @@ public class RobertoFinalEscape
       group.add(powerRadioButton);
       group.add(extremeRadioButton);
       
-      submitButton.setBounds(283, 580, 150,20);
+      setupButton(submitButton,283,580);
       submitButton.addActionListener(new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
             {
                double ageFee = 0;
+               String playerType = "";
                if (miniRadioButton.isSelected())
                {
                   ageFee = 2.5;
+                  playerType = "Lesser Doge";
                }
                else if (juniorRadioButton.isSelected())
                {
                   ageFee = 5.0;
+                  playerType = "Greater Doge";
                }
                else if (powerRadioButton.isSelected())
                {
                   ageFee = 7.5;
+                  playerType = "Angsty Skeleton";
                }
                else if (extremeRadioButton.isSelected())
                {
                   ageFee = 9.75;
+                  playerType = "Lazy Bones";
                }
                else
                {
                   ageFee = 0;
+                  playerType = "";
                }
                if (treasureCheckBox.isSelected())
-                  game.enableExtraTreasure();
+                  gameParameters.enableExtraTreasure();
                   
                if (keyCheckBox.isSelected())
-                  game.enableExtraKey();
+                  gameParameters.enableExtraKey();
                   
                if (monsterCheckBox.isSelected())
-                  game.enableExtraMonster();
-              // showRegistrationInfoFrame(frame, ageFee);
+                  gameParameters.enableExtraMonster();
+               showRegistrationInfoFrame(frame, ageFee, playerType);
             }
          }
       );
-      
-      exitButton.setBounds(567,580,150,20);
+      setupButton(exitButton,567,580);
       exitButton.addActionListener( new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
@@ -670,10 +676,215 @@ public class RobertoFinalEscape
       frame.add(panel);
       frame.setVisible(true);
    }
-   public void showRegistrationInfoFrame(JFrame frame, double ageFee)
+/******************************************************************************
+
+	NAME:          showRegistrationInfoFrame
+	DESCRIPTION:    
+   
+******************************************************************************/
+
+   public void showRegistrationInfoFrame(JFrame frame, double ageFee, String playerType)
    {
+      JTextArea textArea;
+      JPanel panel = new JPanel();
+      JButton agreeButton = new JButton("I Agree");
+      int extraFeatures = getExtraFeaturesAmount();
+      double subtotal = extraFeatures*1.25 + ageFee;
+      double fee = subtotal*0.1;
+      double total = subtotal + fee;
+      String text = "So, "+player.getName()+", aka "+player.getAlias()+", your\n"
+                    +"registration fees are only:\n"
+                    +"\t "+ageFee+" --Basic Registration fee as a "+playerType+"\n"
+                    +"\t "+(extraFeatures*1.25)+" per feature for "+extraFeatures+" Extra Game Features of\n"
+                    +"\t\t "+getExtraFeatures()+"\n"
+                    +"\t ===\n"
+                    +"\t "+subtotal+" --Subtotal\n"
+                    +"\t "+fee+" --Rounded ESCAPE Service Fee of 10%\n"
+                    +"   ===\n"
+                    +"\t "+total+" --Total ESCAPE Registration Fee";
+      
+      textArea = new JTextArea(text);
+      setupTextArea(textArea,210,150);
+      
+      setupButton(agreeButton,425,500);
+      agreeButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            showAccountSummaryFrame(frame, total);
+         }
+      }
+      );
+      
+      panel.setLayout(null);
+      panel.setBackground(Color.BLACK);
+      panel.add(textArea);
+      panel.add(agreeButton);
+      
+      frame.getContentPane().removeAll();
+      frame.setTitle("Registration Information");
+      frame.add(panel);
+      frame.setVisible(true);
+                    
+   }
+   public void showAccountSummaryFrame(JFrame frame, double total)
+   {
+      JTextArea textArea;
+      JPanel panel = new JPanel();
+      double initialBalance = player.getAccountBalance();
+      double currentBalance = initialBalance - total;
+      player.setAccountBalance(currentBalance);
+      JButton continueButton = new JButton("Continue");
+      String text = "UNDERTALE: ESCAPE FORM THE UNDERGROUND ACCOUNT BALANCE\n"
+                   +"======================================================\n"
+                   +"\nSummary of Account balance for "+player.getName()+", aka "+player.getAlias()+":\n"
+                   +"\n"+initialBalance+" - Amount deposited into your account\n"
+                   +total+" - Total ESCAPE Registration Fee\n"
+                   +"======\n"
+                   +currentBalance+" - Current Account Balance\n"
+                   +"\nHAVE A NICE DAY...";
+      textArea = new JTextArea(text);
+      setupTextArea(textArea,0,0);
+      
+      setupButton(continueButton, 425,500);
+      continueButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            showPlayGameFrame(frame);
+         }
+      }
+      );
+      
+      panel.setLayout(null);
+      panel.setBackground(Color.BLACK);
+      panel.add(continueButton);
+      panel.add(textArea);
+      
+      frame.getContentPane().removeAll();
+      frame.setTitle("Account Balance");
+      frame.add(panel);
+      frame.setVisible(true);
       
    }
+/******************************************************************************
+
+	NAME:          showPlayGameFrame
+	DESCRIPTION:    
+   
+******************************************************************************/
+
+   public void showPlayGameFrame(JFrame frame)
+   {
+      JPanel panel = new JPanel();
+      Game game = new Game(frame, player);
+      JButton instructionsButton = new JButton("Instructions");
+      JButton playButton = new JButton("Play");
+      JButton historyButton = new JButton("History");
+      JButton exitButton = new JButton("Exit");
+      JButton solutionButton = new JButton("Solution");
+      
+      setupButton(playButton, 425,100);
+      playButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            game.play();
+         }
+      }
+      );
+      panel.setLayout(null);
+      panel.setBackground(Color.BLACK);
+      panel.add(playButton);
+      
+      frame.getContentPane().removeAll();
+      frame.setTitle("Play Game");
+      frame.add(panel);
+      frame.setVisible(true);
+      
+   }
+/******************************************************************************
+
+	NAME:          getExtraFeaturesAmount
+	DESCRIPTION:    
+   
+******************************************************************************/
+
+   public int getExtraFeaturesAmount()
+   {
+      int extraFeatures =0;
+      
+      if(gameParameters.validateExtraMonster())
+         extraFeatures++;
+         
+      if(gameParameters.validateExtraKey())
+         extraFeatures++;
+         
+      if(gameParameters.validateExtraTreasure())
+         extraFeatures++;
+         
+      return extraFeatures;
+   }
+/******************************************************************************
+
+	NAME:          getExtraFeatures
+	DESCRIPTION:    
+   
+******************************************************************************/
+
+   public String getExtraFeatures()
+   {
+      String extraFeatures = "";
+      if(gameParameters.validateExtraMonster())
+         extraFeatures += "Monster ";
+         
+      if(gameParameters.validateExtraKey())
+         extraFeatures += "Key ";
+         
+      if(gameParameters.validateExtraTreasure())
+         extraFeatures += "Treasure";
+         
+      return extraFeatures;
+      
+   }
+/******************************************************************************
+
+	NAME:          setupButton
+	DESCRIPTION:    
+   
+******************************************************************************/
+
+   public void setupButton(JButton button, int x, int y)
+   {
+      button.setBounds(x,y,150,30);
+      button.setFont(new Font ("Determination Mono", Font.PLAIN, 18));
+      button.setBackground(Color.BLACK);
+      button.setForeground(Color.WHITE);
+      button.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+      button.setFocusPainted(false);
+   }
+/******************************************************************************
+
+	NAME:          setupTextArea
+	DESCRIPTION:    
+   
+******************************************************************************/
+
+   public void setupTextArea(JTextArea textArea, int x, int y)
+   {
+      textArea.setBounds(x,y,1000, 300);
+      textArea.setEnabled(false);
+      textArea.setBackground(Color.BLACK);
+      textArea.setForeground(Color.WHITE);
+      textArea.setFont(new Font("Determination Mono", Font.PLAIN, 16));
+   }
+/******************************************************************************
+
+	NAME:          setupRadioButton
+	DESCRIPTION:    
+   
+******************************************************************************/
+
    public void setupRadioButton(JRadioButton button, int x, int y)
    {
       button.setBounds(x,y,500,30);
@@ -681,6 +892,13 @@ public class RobertoFinalEscape
       button.setFont(new Font("Determination Mono",Font.PLAIN,14));
       button.setForeground(Color.WHITE);
    }
+/******************************************************************************
+
+	NAME:         setupCheckBox
+	DESCRIPTION:    
+   
+******************************************************************************/
+
    public void setupCheckBox(JCheckBox button, int x, int y)
    {
       button.setBounds(x,y,500,30);
@@ -688,13 +906,27 @@ public class RobertoFinalEscape
       button.setFont(new Font("Determination Mono",Font.PLAIN,14));
       button.setForeground(Color.WHITE);
    }
-      public void setupLabel(JLabel label, int x, int y)
+/******************************************************************************
+
+	NAME:         setupLabel
+	DESCRIPTION:    
+   
+******************************************************************************/
+
+   public void setupLabel(JLabel label, int x, int y)
    {
       label.setBounds(x,y,550,80);
       label.setHorizontalAlignment(JLabel.RIGHT);
       label.setForeground(Color.WHITE);
       label.setFont(new Font("Determination Mono",Font.PLAIN,15));
    }
+/******************************************************************************
+
+	NAME:         editImage
+	DESCRIPTION:    
+   
+******************************************************************************/
+
    public Image editImage(String imageName, int width, int height)
    {
       /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
