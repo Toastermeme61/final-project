@@ -30,7 +30,6 @@ class MouseListener extends MouseAdapter
       
       if (doorLocation.validate() != 0)
       {
-         
          moveToRoom(doorLocation.getFrame());
       }
       else if(miscLocation.validate() != 0)

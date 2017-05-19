@@ -426,11 +426,58 @@ class InventoryFrame extends GameFrame
       frame.setVisible(true);
    }
 }
+class GameParameters
+{
+   boolean extraTreasure, extraKey, extraMonster, masterGameType;
+   GameParameters()
+   {
+      extraTreasure = false;
+      extraKey = false;
+      extraMonster = false;
+      masterGameType = false;
+   }
+   public void enableExtraMonster()
+   {
+      extraMonster = true;
+   }
+   public void enableExtraKey()
+   {
+      extraKey = true;
+   }
+   public void enableExtraTreasure()
+   {
+      extraTreasure = true;
+   }
+   public void enableMaster()
+   {
+      masterGameType = true;     
+   }
+}
 class Player
 {
-   int treasures = 0, souls = 0;
-   double accountBalance = 1203.67;
-   
+   int birthYear, treasures, souls;
+   double accountBalance;
+   String name, alias, gender, astrologicalSign;
+   public void setName(String name)
+   {
+      this.name = name;
+   }
+   public void setAlias(String alias)
+   {
+      this.alias = alias;
+   }
+   public void setGender(String gender)
+   {
+      this.gender = gender;
+   }
+   public void setAstrologicalSign(String astrologicalSign)
+   {
+      this.astrologicalSign = astrologicalSign;
+   }
+   public void setBirthYear(int birthYear)
+   {
+      this.birthYear = birthYear;
+   }
    public void addTreasureToInventory()
    {
       treasures++;
@@ -466,6 +513,26 @@ class Player
          indicator = true;
       }
       return indicator;
+   }
+   public String getName()
+   {
+      return name;
+   }
+   public String getAlias()
+   {
+      return alias;
+   }
+   public String getGender()
+   {
+      return gender;
+   }
+   public String getAstrologicalSign()
+   {
+      return astrologicalSign;
+   }
+   public int getBirthYear()
+   {
+      return birthYear;
    }
    public double getAccountBalance()
    {
