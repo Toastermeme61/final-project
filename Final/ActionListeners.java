@@ -58,7 +58,7 @@ class MouseListener extends MouseAdapter
       else
       {
          //counter ++;
-         JOptionPane.showMessageDialog(null,"Nothing");
+         moveToRoom(new MiscFrame("Nothing here!"));
       }
    }
    public void addMiscLocation(int x1, int y1, int x2, int y2, GameFrame frame)

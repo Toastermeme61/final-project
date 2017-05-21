@@ -2,54 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-// public class GameData
-// {
-//    public static void main(String[] args)
-//    {
-//       UIManager UI = new UIManager();
-//       UI.put("OptionPane.background", Color.BLACK);
-//       UI.put("Panel.background",Color.BLACK);
-//       Player player = new Player();
-//       JFrame frame = new JFrame();
-//       SceneFrame frame1,frame2,frame3;
-//       MonsterFrame monster1,monster2;
-//       MiscFrame misc;
-//       TreasureFrame treasure;
-//       InventoryFrame inventory = new InventoryFrame(player);
-//       KeyFrame key;
-//       MouseListener listener1, listener2,listener3;
-//       frame1 = new SceneFrame("entryFlowerBed.png");
-//       frame2 = new SceneFrame("indoor1TheRuins.png");
-//       frame3 = new SceneFrame("indoor1TheRuins.png");
-//       monster1 = new MonsterFrame("mediaBlindDogGif.gif","Blind Doggo",player);
-//      // monster2 =  new MonsterFrame("mediaMuffetGif.gif","Muffet");
-//       treasure = new TreasureFrame("mediaSpaghetti.png", "Moldy Spaghetti Bowl",player);
-//       key = new KeyFrame("mediaHeartSoulGif.gif","Human Soul",player);
-//       misc = new MiscFrame();
-//       misc.setText("Thats you dummy!");
-//       listener1 = new MouseListener(frame1, inventory);
-//       listener2 = new MouseListener(frame2, inventory);
-//       listener3 = new MouseListener(frame3, inventory);
-//       
-//       listener1.addDoorLocation(669,415,793,503,frame2);
-//       listener1.addMonsterLocation(301,300,450,404,monster1);
-//       listener1.addMiscLocation(358,300,408,383,misc);
-//      
-//       listener2.addKeyLocation(240,215,276,252,key);
-//       listener2.addTreasureLocation(295,362,502,595,treasure);
-//       listener2.addDoorLocation(362,83,428,177,frame3);
-//       
-//       listener3.addKeyLocation(240,215,276,252,key);
-//       listener3.addTreasureLocation(295,362,502,595,treasure);
-//       listener3.addDoorLocation(362,83,428,177,frame1);
-//       
-//       
-//       frame1.addMouseListener(listener1);
-//       frame2.addMouseListener(listener2);
-//       frame3.addMouseListener(listener3);
-//       frame1.setVisible(frame);
-//    }
-// }
 
 class Location
 {
@@ -100,10 +52,12 @@ class GameFrame
 {
    JFrame frame =  new JFrame();
    JPanel panel =  new JPanel();
+   RobertoFinalEscape object = new RobertoFinalEscape();
    String imageFileName;
    GameFrame(String image)
    {
       imageFileName = image;
+      frame.setResizable(false);
       
    }
    public JFrame getFrame()
@@ -121,13 +75,14 @@ class SceneFrame extends GameFrame
    SceneFrame(String imageFileName)
    {
       super(imageFileName);
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       setupFrame();
    }
    public void setupFrame()
    {
       JLabel imageLabel  = new JLabel();
       imageLabel.setIcon(new ImageIcon(imageFileName));
+      
       panel.add(imageLabel);
       frame.add(panel);
       frame.pack();
@@ -195,13 +150,14 @@ class MonsterFrame extends SubGameFrame
    }
    public void setupFrame()
    { 
+      MiscFrame msgFrame = new MiscFrame("");
       JButton bribeButton = new JButton("Bribe!");
       JButton feedButton = new JButton("Feed!");
       JButton runButton = new JButton("Run!");
       setSubFrameDefaults("Oh no! "+objectName+" stands in your way!What will you do?");
-      bribeButton.setBounds(90,450,150,20);
-      feedButton.setBounds(300,450,150,20);
-      runButton.setBounds(90,500,150,20);
+      object.setupButton(bribeButton, 90, 450);
+      object.setupButton(feedButton, 300,450);
+      object.setupButton(runButton, 90, 500);
       bribeButton.addActionListener(new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
@@ -209,12 +165,16 @@ class MonsterFrame extends SubGameFrame
                
                if (player.bribeMonster(1000))
                {
-                  JOptionPane.showMessageDialog(null,"Do you actually think I can be BRIBED human?!?!?!? (Takes money anyway)");
-                  //userInterface.showMsgGameDialog(getFrame(),"Do you actually think I can be BRIBED human?","");
-                  getFrame().setVisible(false);
+                  
+                  msgFrame.setText("Loudly condemns bribing while discretely taking bribe");
+                  msgFrame.setVisible(getFrame());
+                  
                }
                else
-                  JOptionPane.showMessageDialog(null,"Not enough dough bro");
+               {
+                  msgFrame.setText("Sorry, you dont have the funds");
+                  msgFrame.setVisible(getFrame());
+               }
             }
          }
          );
@@ -256,9 +216,9 @@ class TreasureFrame extends SubGameFrame
    }
    public void setupFrame()
    { 
-      JButton okButton = new JButton("Add to Inventory");
+      JButton okButton = new JButton("Pick up");
       setSubFrameDefaults("Nice! You just found a "+objectName+"!");
-      okButton.setBounds(175,450,150,20);
+      object.setupButton(okButton,175,450);
       okButton.addActionListener(new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
@@ -282,10 +242,10 @@ class KeyFrame extends SubGameFrame
    }
    public void setupFrame()
    { 
-      JButton okButton = new JButton("Add to inventory");
+      JButton okButton = new JButton("Pick up");
       setSubFrameDefaults("A "+objectName+"! You can finally open the portal home!");
       
-      okButton.setBounds(175,450,150,20);
+      object.setupButton(okButton, 175, 450);
       okButton.addActionListener(new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
@@ -325,7 +285,7 @@ class MiscFrame extends GameFrame
       text.setFont(new Font ("Determination Mono",Font.BOLD,15));
       text.setForeground(Color.WHITE);
       
-      okButton.setBounds(225,280,150,20);
+      object.setupButton(okButton, 225,280);
       okButton.addActionListener(new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
@@ -348,6 +308,10 @@ class MiscFrame extends GameFrame
    {
       getFrame().setVisible(true);
    }
+   public void setText(String text)
+   {
+      this.text.setText(text);
+   }
 }
 class InventoryFrame extends GameFrame
 {
@@ -365,6 +329,7 @@ class InventoryFrame extends GameFrame
    public void setupFrame()
    {
       JButton okButton = new JButton("Back To Game");
+      JButton quitButton = new JButton("Quit Game");
       JLabel imageKeyLabel  = new JLabel();
       JLabel imageTreasureLabel = new JLabel();
       JLabel imageLabel = new JLabel();
@@ -373,11 +338,6 @@ class InventoryFrame extends GameFrame
       imageLabel.setBounds(0,0,500,598);
       imageLabel.setHorizontalAlignment(JLabel.CENTER);
       imageLabel.setVerticalAlignment(JLabel.TOP);
-      
-      // imageKeyLabel.setIcon(new ImageIcon("mediaHeartSoulGif.gif"));
-//       imageKeyLabel.setBounds(0,0,500,598);
-//       imageKeyLabel.setHorizontalAlignment(JLabel.CENTER);
-//       imageKeyLabel.setVerticalAlignment(JLabel.TOP);
       
       textKeyLabel.setBounds(0,180,500,598);
       textKeyLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -397,7 +357,7 @@ class InventoryFrame extends GameFrame
       textBalanceLabel.setFont(new Font("Determination Mono", Font.PLAIN, 15));
       textBalanceLabel.setForeground(Color.WHITE);
       
-      okButton.setBounds(175,530,150,20);
+      object.setupButton(okButton,175,490);
       okButton.addActionListener(new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
@@ -406,8 +366,19 @@ class InventoryFrame extends GameFrame
             }
          }
          );
+         
+      object.setupButton(quitButton,175,530);
+      quitButton.addActionListener(new ActionListener()
+         {
+            public void actionPerformed(ActionEvent e)
+            {
+               
+            }
+         }
+         );
       
       panel.add(okButton);
+      panel.add(quitButton);
       panel.add(textKeyLabel);
       panel.add(textTreasureLabel);
       panel.add(textBalanceLabel);
@@ -454,7 +425,7 @@ class GameParameters
    }
    public boolean validateMaster()
    {
-      return extraMonster;
+      return masterGameType;
    }
    public boolean validateExtraMonster()
    {

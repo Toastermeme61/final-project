@@ -2,9 +2,11 @@ import javax.swing.*;//JFrame, JLabel, JButton, JOPtionPane
 import java.util.*;//Date
 import java.awt.*;//Color, Font
 import java.awt.event.*;//ActionListener
+import java.text.NumberFormat; 
 public class RobertoFinalEscape
 {
    //UIManager UI = new UIManager();
+   NumberFormat currencyFormater = NumberFormat.getCurrencyInstance();
    DialogueManager DM = new DialogueManager();
    Player player =  new Player();
    GameParameters gameParameters = new GameParameters();
@@ -14,10 +16,10 @@ public class RobertoFinalEscape
       RobertoFinalEscape finalEscape = new RobertoFinalEscape();
       frameMain.setSize(1000,720);
       frameMain.setLocationRelativeTo(null);
-      frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      frameMain.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+      frameMain.setResizable(false);
+      //frameMain.setUndecorated(true);
       finalEscape.showWelcomeFrame(frameMain);
-      //finalEscape.showFeatureSelectFrame(frameMain);
-      //finalEscape.showRegistrationInfoFrame(frameMain, 9.75, "Lazy Bones");
    }
 /******************************************************************************
 *******************************************************************************
@@ -119,6 +121,7 @@ public class RobertoFinalEscape
          {
             public void actionPerformed(ActionEvent e)
             {
+               player.setName("Panfilo Filomeno");
                showExitFrame(frame);
             }
          }
@@ -153,16 +156,20 @@ public class RobertoFinalEscape
    {
       JLabel feesLabel = new JLabel();
       JLabel purposeLabel = new JLabel();
+      JLabel textLabel = new JLabel("Purpose");
       JButton backButton = new JButton("Back");
       JPanel panel =  new JPanel();
       
+      setupLabel(textLabel,20,50);
+      textLabel.setFont(new Font("Determination Mono", Font.BOLD, 30));
+      
       feesLabel.setIcon(new ImageIcon("mediaFees.png"));
-      feesLabel.setBounds(0,15,1000,700);
+      feesLabel.setBounds(0,160,1000,700);
       feesLabel.setHorizontalAlignment(JLabel.CENTER);
       feesLabel.setVerticalAlignment(JLabel.TOP);
       
       purposeLabel.setIcon(new ImageIcon("mediaPurpose.png"));
-      purposeLabel.setBounds(0,210,1000,700);
+      purposeLabel.setBounds(0,375,1000,700);
       purposeLabel.setHorizontalAlignment(JLabel.CENTER);
       purposeLabel.setVerticalAlignment(JLabel.TOP);
       
@@ -182,6 +189,7 @@ public class RobertoFinalEscape
       panel.add(backButton);
       panel.add(feesLabel);
       panel.add(purposeLabel);
+      panel.add(textLabel);
       
       
       frame.getContentPane().removeAll();
@@ -199,7 +207,8 @@ public class RobertoFinalEscape
    {
       JPanel panel = new JPanel();
       JTextField pinTxtField = new JTextField();
-      JTextField passTxtField = new JTextField();
+      JPasswordField passTxtField = new JPasswordField();
+      //JTextField passTxtField = new JTextField();
       JLabel passLabel = new JLabel("Enter Password:");
       JLabel pinLabel = new JLabel("Enter PIN Number:");
       JLabel warningLabel = new JLabel("");
@@ -231,7 +240,12 @@ public class RobertoFinalEscape
             public void actionPerformed(ActionEvent e)
             {
                String pin = pinTxtField.getText();
-               String password = passTxtField.getText();
+               String password = "";
+               
+               char[] passwordArray = passTxtField.getPassword();
+               for(int x = 0;x<passwordArray.length;x++)
+                  password += Character.toString(passwordArray[x]);
+                  
                if (validateLogin(pin,password))
                {
                   player.setName(setUserName(pin));
@@ -256,6 +270,7 @@ public class RobertoFinalEscape
          {
             public void actionPerformed(ActionEvent e)
             {
+               player.setName("Sugar Daddy Bait");
                showExitFrame(frame);
             }
          }
@@ -338,7 +353,7 @@ public class RobertoFinalEscape
 
       /////////////////////////////////////////////////////////////////////////////////////////
       
-      JLabel labelFarewellOne = new JLabel("Thank you for visiting! And remember:");
+      JLabel labelFarewellOne = new JLabel("Thank you for visiting "+player.getName()+"! And remember:");
       JLabel labelFarewellTwo = new JLabel("STAY DETERMINED!!!");
       JLabel labelSansAndPapyrus = new JLabel();
       JLabel labelFlowey = new JLabel();
@@ -346,6 +361,9 @@ public class RobertoFinalEscape
       JLabel labelTemmy = new JLabel();
       JLabel labelMettaton = new JLabel();
       JPanel panel = new JPanel();
+      JButton idInfoButton = new JButton("ID Info");
+      JButton exitButton = new JButton("Exit To Desktop");
+      
       
       /////////////////////////////////////////////////////////////////////////////////////////
       
@@ -397,6 +415,27 @@ public class RobertoFinalEscape
       labelMettaton.setHorizontalAlignment(JLabel.RIGHT);
       labelMettaton.setVerticalAlignment(JLabel.BOTTOM);
       
+      setupButton(idInfoButton, 425, 250);
+      idInfoButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            //showIdInfoFrame();
+         }
+      }
+      );
+      
+      setupButton(exitButton, 0, 0);
+      exitButton.setBounds(400,350,200,30);
+      exitButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            System.exit(0);
+         }
+      }
+      );
+      
       //Add components to panel
       panel.setLayout(null);
       panel.setBackground(Color.BLACK);
@@ -407,6 +446,8 @@ public class RobertoFinalEscape
       panel.add(labelBlindDog);
       panel.add(labelTemmy);
       panel.add(labelMettaton);
+      panel.add(idInfoButton);
+      panel.add(exitButton);
       
       //Clean up JFrame, add new panel and set visible
       frame.getContentPane().removeAll();
@@ -424,21 +465,21 @@ public class RobertoFinalEscape
    {
       String[] astroSigns; 
       astroSigns = new String[] {"Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces"};
-      JLabel greetingLabel, aliasLabel, genderLabel, astroSignLabel, birthYearLabel, depositLabel, confirmLabel;
-      JTextField aliasTxtField, genderTxtField, birthYearTxtField, depositTxtField;
+      JLabel greetingLabel, aliasLabel, genderLabel, astroSignLabel, birthYearLabel, depositLabel;
+      JTextPane confirmArea = new JTextPane();
+      JTextField aliasTxtField, birthYearTxtField, depositTxtField;
       JComboBox astroSignComboBox = new JComboBox(astroSigns);
+      JRadioButton maleRadioButton = new JRadioButton("Dude",true);
+      JRadioButton femaleRadioButton = new JRadioButton("Dudette");
+      ButtonGroup group = new ButtonGroup();
       JPanel panel = new JPanel();
       JButton submitButton = new JButton("Submit");
       JButton continueButton = new JButton("Continue");
       JButton resetButton = new JButton("Reset");
-      String playerName, playerAlias, playerGender, playerAstroSign, playerBirthYear, playerDeposit;
+      String playerName;
       
       playerName = player.getName();
-      playerAlias = "";
-      playerGender = "";
-      playerAstroSign = "";
-      playerBirthYear = "";
-      playerDeposit = "";
+      
       
       greetingLabel = new JLabel("Why hello there "+playerName+". Could you fill out this form please?");
       aliasLabel = new JLabel("Enter your preferred nickname:");
@@ -446,10 +487,9 @@ public class RobertoFinalEscape
       astroSignLabel= new JLabel("Enter your astrological sign:");
       birthYearLabel= new JLabel("Enter your birth year:");
       depositLabel= new JLabel("Enter the amount fo money you want to deposit:");
-      confirmLabel= new JLabel("");
+      
       
       aliasTxtField = new JTextField();
-      genderTxtField = new JTextField();
       birthYearTxtField = new JTextField();
       depositTxtField = new JTextField();
       
@@ -463,7 +503,11 @@ public class RobertoFinalEscape
       aliasTxtField.setBounds(560,182,150,20);
       
       setupRegistrationLabel(genderLabel, 200);
-      genderTxtField.setBounds(560,232,150,20);
+      setupRadioButton(maleRadioButton, 560, 232);
+      maleRadioButton.setBounds(560, 232, 60, 30);
+      setupRadioButton(femaleRadioButton, 620, 232);
+      group.add(maleRadioButton);
+      group.add(femaleRadioButton);
       
       setupRegistrationLabel(astroSignLabel, 250);
       astroSignComboBox.setBounds(560,282,150,20);
@@ -474,24 +518,36 @@ public class RobertoFinalEscape
       setupRegistrationLabel(depositLabel, 350);
       depositTxtField.setBounds(560,382,150,20);
       
-      confirmLabel.setBounds(0,450,1000,300);
-      confirmLabel.setHorizontalAlignment(JLabel.CENTER);
-      confirmLabel.setVerticalAlignment(JLabel.TOP);
-      confirmLabel.setForeground(Color.WHITE);
-      confirmLabel.setFont(new Font("Determination Mono",Font.BOLD,16));
+      setupTextArea(confirmArea, 0,0);
+      confirmArea.setBounds(220,460,600,150);
+      
       
       setupButton(submitButton, 250, 620);
       submitButton.addActionListener(new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
             {
+               String gender = "";
+               if(maleRadioButton.isSelected())
+               {
+                  gender = "Dude";
+               }
+               else if(femaleRadioButton.isSelected())
+               {
+                  gender = "Dudette";
+               }
+               else
+               {
+                  gender = "";
+               }
                player.setAlias(aliasTxtField.getText());
-               player.setGender(genderTxtField.getText());
+               player.setGender(gender);
                player.setAstrologicalSign(astroSignComboBox.getSelectedItem().toString());
                player.setBirthYear(Integer.parseInt(birthYearTxtField.getText()));
                player.setAccountBalance(Double.parseDouble(depositTxtField.getText()));
-               confirmLabel.setText(player.getName()+" "+player.getAlias()+" "+player.getGender()
-                  +" "+player.getAstrologicalSign()+" "+player.getBirthYear()+" "+player.getAccountBalance());
+               confirmArea.setText("So "+player.getName()+", aka "+player.getAlias()+",\nyou're a "+player.getGender()+" and a "+player.getAstrologicalSign()+" born in "+player.getBirthYear()+"?\nI never would have guessed, "
+                                 +"I'm a transgender Capricorn myself.\nCool! Looks like your deposit for "
+                                 +currencyFormater.format(player.getAccountBalance())+" went through! ");
             }
          }
       );
@@ -512,22 +568,33 @@ public class RobertoFinalEscape
             public void actionPerformed(ActionEvent e)
             {
                aliasTxtField.setText("");
-               genderTxtField.setText("");
+               maleRadioButton.setSelected(true);
+               
                birthYearTxtField.setText("");
                depositTxtField.setText("");
+               confirmArea.setText("");
             }
          }
       );
       
+      if (gameParameters.validateMaster())
+         {
+            aliasTxtField.setText("Dennis the Menace");
+            
+            birthYearTxtField.setText("1997");
+            depositTxtField.setText("12345");
+         }
+      
       panel.setLayout(null);
       panel.setBackground(Color.BLACK);
-      panel.add(confirmLabel);
+      panel.add(maleRadioButton);
+      panel.add(femaleRadioButton);
+      panel.add(confirmArea);
       panel.add(submitButton);
       panel.add(continueButton);
       panel.add(resetButton);
       panel.add(astroSignComboBox);
       panel.add(aliasTxtField);
-      panel.add(genderTxtField);
       panel.add(birthYearTxtField);
       panel.add(depositTxtField);
       panel.add(greetingLabel);
@@ -570,7 +637,7 @@ public class RobertoFinalEscape
       JRadioButton miniRadioButton = new JRadioButton("$2.50 Lesser Doge (ages under 4)");
       JRadioButton juniorRadioButton = new JRadioButton("$5.00 Greater Doge (ages 4-12)");
       JRadioButton powerRadioButton = new JRadioButton("$7.50 Angsty Skeleton (ages 13-17)");
-      JRadioButton extremeRadioButton = new JRadioButton("$9.75 Lazy Bones (ages 18 and above)");
+      JRadioButton extremeRadioButton = new JRadioButton("$9.75 Lazy Bones (ages 18 and above)",true);
       JCheckBox treasureCheckBox = new JCheckBox("Extra Moldy Spaghetti bowl");
       JCheckBox monsterCheckBox = new JCheckBox("Extra Monster");
       JCheckBox keyCheckBox = new JCheckBox("Extra Key");
@@ -685,7 +752,7 @@ public class RobertoFinalEscape
 
    public void showRegistrationInfoFrame(JFrame frame, double ageFee, String playerType)
    {
-      JTextArea textArea;
+      JTextPane textArea;
       JPanel panel = new JPanel();
       JButton agreeButton = new JButton("I Agree");
       int extraFeatures = getExtraFeaturesAmount();
@@ -694,17 +761,18 @@ public class RobertoFinalEscape
       double total = subtotal + fee;
       String text = "So, "+player.getName()+", aka "+player.getAlias()+", your\n"
                     +"registration fees are only:\n"
-                    +"\t "+ageFee+" --Basic Registration fee as a "+playerType+"\n"
-                    +"\t "+(extraFeatures*1.25)+" per feature for "+extraFeatures+" Extra Game Features of\n"
+                    +"\t "+currencyFormater.format(ageFee)+" --Basic Registration fee as a "+playerType+"\n"
+                    +"\t "+currencyFormater.format((extraFeatures*1.25))+" per feature for "+extraFeatures+" Extra Game Features of\n"
                     +"\t\t "+getExtraFeatures()+"\n"
                     +"\t ===\n"
-                    +"\t "+subtotal+" --Subtotal\n"
-                    +"\t "+fee+" --Rounded ESCAPE Service Fee of 10%\n"
+                    +"\t "+currencyFormater.format(subtotal)+" --Subtotal\n"
+                    +"\t "+currencyFormater.format(fee)+" --Rounded ESCAPE Service Fee of 10%\n"
                     +"   ===\n"
-                    +"\t "+total+" --Total ESCAPE Registration Fee";
+                    +"\t "+currencyFormater.format(total)+" --Total ESCAPE Registration Fee";
       
-      textArea = new JTextArea(text);
-      setupTextArea(textArea,210,150);
+      textArea = new JTextPane();
+      textArea.setText(text);
+      setupTextArea(textArea,230,150);
       
       setupButton(agreeButton,425,500);
       agreeButton.addActionListener(new ActionListener()
@@ -729,7 +797,7 @@ public class RobertoFinalEscape
    }
    public void showAccountSummaryFrame(JFrame frame, double total)
    {
-      JTextArea textArea;
+      JTextPane textArea;
       JPanel panel = new JPanel();
       double initialBalance = player.getAccountBalance();
       double currentBalance = initialBalance - total;
@@ -737,14 +805,15 @@ public class RobertoFinalEscape
       JButton continueButton = new JButton("Continue");
       String text = "UNDERTALE: ESCAPE FORM THE UNDERGROUND ACCOUNT BALANCE\n"
                    +"======================================================\n"
-                   +"\nSummary of Account balance for "+player.getName()+", aka "+player.getAlias()+":\n"
-                   +"\n"+initialBalance+" - Amount deposited into your account\n"
-                   +total+" - Total ESCAPE Registration Fee\n"
+                   +"\nSummary of Account balance for "+player.getName()+", \naka "+player.getAlias()+":\n"
+                   +"\n"+currencyFormater.format(initialBalance)+" - Amount deposited into your account\n"
+                   +currencyFormater.format(total)+" - Total ESCAPE Registration Fee\n"
                    +"======\n"
-                   +currentBalance+" - Current Account Balance\n"
+                   +currencyFormater.format(currentBalance)+" - Current Account Balance\n"
                    +"\nHAVE A NICE DAY...";
-      textArea = new JTextArea(text);
-      setupTextArea(textArea,0,0);
+      textArea = new JTextPane();
+      textArea.setText(text);
+      setupTextArea(textArea,250,150);
       
       setupButton(continueButton, 425,500);
       continueButton.addActionListener(new ActionListener()
@@ -784,7 +853,7 @@ public class RobertoFinalEscape
       JButton exitButton = new JButton("Exit");
       JButton solutionButton = new JButton("Solution");
       
-      setupButton(playButton, 425,100);
+      setupButton(playButton, 425,200);
       playButton.addActionListener(new ActionListener()
       {
          public void actionPerformed(ActionEvent e)
@@ -793,15 +862,102 @@ public class RobertoFinalEscape
          }
       }
       );
+      
+      setupButton(instructionsButton, 425, 100);
+      instructionsButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            showInstructionsFrame();
+         }
+      }
+      );
+      
+      setupButton(historyButton, 425, 300);
+      historyButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            //showHistoryFrame(frame);
+         }
+      }
+      );
+      
+      setupButton(exitButton, 425, 400);
+      exitButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            showExitFrame(frame);
+         }
+      }
+      );
+      
+      setupButton(solutionButton, 425, 500);
+         
+      solutionButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            //showSolutionFrame();
+         }
+      }
+      );
+      
       panel.setLayout(null);
       panel.setBackground(Color.BLACK);
       panel.add(playButton);
+      panel.add(instructionsButton);
+      panel.add(historyButton);
+      panel.add(exitButton);
+      if(gameParameters.validateMaster())
+      {
+         panel.add(solutionButton);
+      }
       
       frame.getContentPane().removeAll();
       frame.setTitle("Play Game");
       frame.add(panel);
       frame.setVisible(true);
       
+   }
+/******************************************************************************
+
+	NAME:          showInstructionsFrame()
+	DESCRIPTION:    
+   
+******************************************************************************/
+
+   public void showInstructionsFrame()
+   {
+      JFrame frame = new JFrame();
+      JPanel panel = new JPanel();
+      JTextPane textArea = new JTextPane();
+      JButton backButton = new JButton("Back");
+      
+      textArea.setText("Hello Bitch");
+      
+      setupTextArea(textArea,50,200);
+      setupButton(backButton, 175, 500);
+      backButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            frame.setVisible(false);
+            frame.dispose();
+         }
+      }
+      );
+      
+      panel.setLayout(null);
+      panel.setBackground(Color.BLACK);
+      panel.add(textArea);
+      panel.add(backButton);
+      
+      frame.add(panel);
+      frame.setSize(500,598);
+      frame.setLocationRelativeTo(null);
+      frame.setVisible(true);
    }
 /******************************************************************************
 
@@ -870,9 +1026,10 @@ public class RobertoFinalEscape
    
 ******************************************************************************/
 
-   public void setupTextArea(JTextArea textArea, int x, int y)
+   public void setupTextArea(JTextPane textArea, int x, int y)
    {
       textArea.setBounds(x,y,1000, 300);
+      
       textArea.setEnabled(false);
       textArea.setBackground(Color.BLACK);
       textArea.setForeground(Color.WHITE);
