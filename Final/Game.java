@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 public class Game
 {
+   double initialBalance;
+   boolean escape = false;
+   int clicks = 0;
    SceneFrame entryScene, indoor1Scene, indoor2Scene, indoor3Scene, indoor4Scene, indoor5Scene, indoor6Scene, indoor7Scene, indoor8Scene, indoor9Scene;
    MouseListener entryListener, indoor1Listener, indoor2Listener, indoor3Listener, indoor4Listener, indoor5Listener, indoor6Listener, indoor7Listener, indoor8Listener, indoor9Listener;
    MonsterFrame floweyFrame, blindDogFrame, papyrusFrame, sansFrame, asgoreFrame, undyneFrame;
@@ -11,20 +14,33 @@ public class Game
    InventoryFrame inventory;
    GameFrame startingFrame;
    Player player;
-   Game(JFrame frame, Player player)
+   Game(JFrame frame, Player player, History gameHistory)
    {
       this.player = player;
       interfaceFrame = frame;
-      inventory = new InventoryFrame(player, interfaceFrame);
+      inventory = new InventoryFrame(player, interfaceFrame, gameHistory);
+      initialBalance = player.getAccountBalance();
       startingFrame = setup();
    }
-   public static void main (String[] args)
+//    public static void main (String[] args)
+//    {
+//       JFrame frame = new JFrame();
+//       Player player =  new Player();
+//       Game game = new Game(frame, player);
+//       game.play();
+//       
+//    }
+   public void playerClick()
    {
-      JFrame frame = new JFrame();
-      Player player =  new Player();
-      Game game = new Game(frame, player);
-      game.play();
-      
+      clicks++;
+   }
+   public int getClicks()
+   {
+      return clicks;
+   }
+   public boolean validateEscape()
+   {
+      return escape;
    }
    public void play()
    {
@@ -32,7 +48,6 @@ public class Game
    }
    public void reset()
    {
-      
       entryListener.reset(); 
       entryListener.addMiscLocation(358,300,408,383, new MiscFrame("Thats you dummy!"));
       entryListener.addMonsterLocation(301,295,450,405,floweyFrame);
@@ -110,7 +125,8 @@ public class Game
       
       player.setTreasureAmount(0);
       player.setKeyAmount(0);
-
+      player.setAccountBalance(initialBalance);
+      this.clicks = 0;
    }
    public GameFrame setup()
    {    
@@ -158,7 +174,7 @@ public class Game
       indoor8Scene.addMouseListener(indoor8Listener);
       indoor9Scene.addMouseListener(indoor9Listener);
       
-            //player.set
+           
       
       return entryScene;
       
@@ -166,7 +182,7 @@ public class Game
    }
    public MouseListener setupMouseListener(SceneFrame frame)
    {
-      MouseListener listener = new MouseListener(frame, inventory);
+      MouseListener listener = new MouseListener(frame, inventory,this);
       return listener;
    }
    public MonsterFrame setupMonsterFrame(String imageFileName, String monsterName)

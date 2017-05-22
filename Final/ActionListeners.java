@@ -4,14 +4,16 @@ import javax.swing.*;
 class MouseListener extends MouseAdapter
 {
    GameFrame currentFrame;
+   Game game;
    ArrayList<Location> doorLocationList = new ArrayList<Location>();
    ArrayList<Location> treasureLocationList = new ArrayList<Location>();
    ArrayList<Location> monsterLocationList =  new ArrayList<Location>();
    ArrayList<Location> keyLocationList = new ArrayList<Location>();
    ArrayList<Location> inventoryLocationList = new ArrayList<Location>();
    ArrayList<Location> miscLocationList = new ArrayList<Location>();
-   MouseListener(SceneFrame frame, InventoryFrame inventory)
+   MouseListener(SceneFrame frame, InventoryFrame inventory, Game game)
    {
+      this.game = game;
       currentFrame = frame;
       inventoryLocationList.add(new Location(700,498,800,598,inventory));
    }
@@ -61,6 +63,7 @@ class MouseListener extends MouseAdapter
          //counter ++;
          moveToRoom(new MiscFrame("Nothing here!"));
       }
+      game.playerClick();
    }
    public void reset()
    {

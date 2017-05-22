@@ -366,11 +366,13 @@ class InventoryFrame extends GameFrame
    JLabel textBalanceLabel = new JLabel();
    JButton quitButton = new JButton("Quit Game");
    JFrame rootFrame;
-   InventoryFrame(Player player, JFrame rootFrame)
+   History history;
+   InventoryFrame(Player player, JFrame rootFrame, History history)
    {
       super("mediaInventory.png");
       this.rootFrame = rootFrame;
       this.player = player;
+      this.history = history;
       setupFrame();
    }
    public void setCurrentFrame(GameFrame currentFrame)
@@ -379,6 +381,7 @@ class InventoryFrame extends GameFrame
          {
             public void actionPerformed(ActionEvent e)
             {
+               history.addLog(new Log(player));
                getFrame().setVisible(false);
                currentFrame.getFrame().setVisible(false);
                rootFrame.setVisible(true);
@@ -499,6 +502,19 @@ class Player
    int birthYear, treasures, souls;
    double accountBalance;
    String name, alias, gender, astrologicalSign;
+   Game game;
+   public void setGame(Game game)
+   {
+      this.game = game;
+   }
+   public int getClicks()
+   {
+      return game.getClicks();
+   }
+   public boolean validateEscape()
+   {
+      return game.validateEscape();
+   }
    public void setName(String name)
    {
       this.name = name;
@@ -594,5 +610,70 @@ class Player
    public int getKeyAmount()
    {
       return souls;
+   }
+}
+class Log
+{
+   boolean escape;
+   int clicks;
+   double accountBalance;
+   Log(Player player)
+   {
+      escape = player.validateEscape();
+      clicks = player.getClicks();
+      accountBalance = player.getAccountBalance();
+   }
+   public int getClicks()
+   {
+      return clicks;
+   }
+   public boolean validateEscape()
+   {
+      return escape;
+   }
+   public double getAccountBalance()
+   {
+      return accountBalance;
+   }
+}
+class History
+{
+   Player player;
+   ArrayList<Log> logList = new ArrayList<Log>();
+   int wins, losses;
+   double initialBalance, currentBalance;
+   Date date = new Date();
+   String name, initialTime;
+   History(Player player)
+   {
+      this.player = player;
+      name = player.getName();
+      initialBalance = player.getAccountBalance();
+      initialTime = date.toString();
+   }
+   public Log getLog(int index)
+   {
+      return logList.get(index);
+   }
+   public void update()
+   {
+      wins = calculateWins();
+      losses = logList.size()-wins;
+      currentBalance = player.getAccountBalance();
+   }
+   public void addLog(Log log)
+   {
+      logList.add(log);
+      update();
+   }
+   public int calculateWins()
+   {
+      int wins = 0;
+      for(int x=0; x<logList.size(); x++)
+      {
+         if(logList.get(x).validateEscape())
+            wins++;
+      }
+      return wins;
    }
 }

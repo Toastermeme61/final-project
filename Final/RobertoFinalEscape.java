@@ -5,11 +5,11 @@ import java.awt.event.*;//ActionListener
 import java.text.NumberFormat; 
 public class RobertoFinalEscape
 {
-   //UIManager UI = new UIManager();
    NumberFormat currencyFormater = NumberFormat.getCurrencyInstance();
    DialogueManager DM = new DialogueManager();
    Player player =  new Player();
    GameParameters gameParameters = new GameParameters();
+   History gameHistory;
    public static void main(String[] args)
    {
       JFrame frameMain = new JFrame("Undertale");
@@ -797,6 +797,7 @@ public class RobertoFinalEscape
    }
    public void showAccountSummaryFrame(JFrame frame, double total)
    {
+      gameHistory = new History(player);
       JTextPane textArea;
       JPanel panel = new JPanel();
       double initialBalance = player.getAccountBalance();
@@ -846,12 +847,15 @@ public class RobertoFinalEscape
    public void showPlayGameFrame(JFrame frame)
    {
       JPanel panel = new JPanel();
-      Game game = new Game(frame, player);
+      gameHistory = new History(player);
+      Game game = new Game(frame, player, gameHistory);
       JButton instructionsButton = new JButton("Instructions");
       JButton playButton = new JButton("Play");
       JButton historyButton = new JButton("History");
       JButton exitButton = new JButton("Exit");
       JButton solutionButton = new JButton("Solution");
+      
+      player.setGame(game);
       
       setupButton(playButton, 425,200);
       playButton.addActionListener(new ActionListener()
@@ -879,7 +883,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
-            //showHistoryFrame(frame);
+            showHistoryFrame();
          }
       }
       );
@@ -937,6 +941,38 @@ public class RobertoFinalEscape
       JButton backButton = new JButton("Back");
       
       textArea.setText("Hello Bitch");
+      
+      setupTextArea(textArea,50,200);
+      setupButton(backButton, 175, 500);
+      backButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            frame.setVisible(false);
+            frame.dispose();
+         }
+      }
+      );
+      
+      panel.setLayout(null);
+      panel.setBackground(Color.BLACK);
+      panel.add(textArea);
+      panel.add(backButton);
+      
+      frame.add(panel);
+      frame.setSize(500,598);
+      frame.setLocationRelativeTo(null);
+      frame.setVisible(true);
+   }
+
+   public void showHistoryFrame()
+   {
+      JFrame frame = new JFrame();
+      JPanel panel = new JPanel();
+      JTextPane textArea = new JTextPane();
+      JButton backButton = new JButton("Back");
+      
+      textArea.setText(""+gameHistory.getLog(0).getClicks());
       
       setupTextArea(textArea,50,200);
       setupButton(backButton, 175, 500);
