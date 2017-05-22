@@ -2,19 +2,21 @@ import javax.swing.*;
 import java.awt.*;
 public class Game
 {
+   SceneFrame entryScene, indoor1Scene, indoor2Scene, indoor3Scene, indoor4Scene, indoor5Scene, indoor6Scene, indoor7Scene, indoor8Scene, indoor9Scene;
+   MouseListener entryListener, indoor1Listener, indoor2Listener, indoor3Listener, indoor4Listener, indoor5Listener, indoor6Listener, indoor7Listener, indoor8Listener, indoor9Listener;
+   MonsterFrame floweyFrame, blindDogFrame, papyrusFrame, sansFrame, asgoreFrame, undyneFrame;
+   TreasureFrame treasureFrame;
+   KeyFrame keyFrame;
    JFrame interfaceFrame;
    InventoryFrame inventory;
    GameFrame startingFrame;
    Player player;
    Game(JFrame frame, Player player)
    {
-      UIManager UI = new UIManager();
-      UI.put("OptionPane.background", Color.BLACK);
-      UI.put("Panel.background",Color.BLACK);
-      inventory = new InventoryFrame(player);
       this.player = player;
       interfaceFrame = frame;
-      startingFrame = setupGame();
+      inventory = new InventoryFrame(player, interfaceFrame);
+      startingFrame = setup();
    }
    public static void main (String[] args)
    {
@@ -28,14 +30,90 @@ public class Game
    {
       startingFrame.setVisible(interfaceFrame);
    }
-   public GameFrame setupGame()
+   public void reset()
    {
-      SceneFrame entryScene, indoor1Scene, indoor2Scene, indoor3Scene, indoor4Scene, indoor5Scene, indoor6Scene, indoor7Scene, indoor8Scene, indoor9Scene;
-      MouseListener entryListener, indoor1Listener, indoor2Listener, indoor3Listener, indoor4Listener, indoor5Listener, indoor6Listener, indoor7Listener, indoor8Listener, indoor9Listener;
-      MonsterFrame floweyFrame, blindDogFrame, papyrusFrame, sansFrame, asgoreFrame, undyneFrame;
-      TreasureFrame treasureFrame;
-      KeyFrame keyFrame;
       
+      entryListener.reset(); 
+      entryListener.addMiscLocation(358,300,408,383, new MiscFrame("Thats you dummy!"));
+      entryListener.addMonsterLocation(301,295,450,405,floweyFrame);
+      entryListener.addDoorLocation(669,415,793,503,indoor1Scene);
+      
+      indoor1Listener.reset();
+      indoor1Listener.addMiscLocation(202,66,316,141, new MiscFrame("Its a window..."));
+      indoor1Listener.addMiscLocation(472,66,588,141, new MiscFrame("OMG! It's just another window..."));
+      indoor1Listener.addMiscLocation(353,31,437,70,  new MiscFrame("Important looking writing. If only you could read..."));
+      indoor1Listener.addKeyLocation(240,215,276,252,keyFrame);
+      indoor1Listener.addTreasureLocation(295, 362, 502, 595, treasureFrame);
+      indoor1Listener.addDoorLocation(362,83,428,177,indoor2Scene);
+      
+      indoor2Listener.reset();
+      indoor2Listener.addMiscLocation(344,397,397,467, new MiscFrame("You again!"));
+      indoor2Listener.addTreasureLocation(162,252,305,348,treasureFrame);
+      indoor2Listener.addDoorLocation(726,409,800,510,indoor3Scene);
+      indoor2Listener.addDoorLocation(25,159,157,457,indoor1Scene);
+      indoor2Listener.addMonsterLocation(340,8,789,387,sansFrame);
+      
+      indoor3Listener.reset();
+      indoor3Listener.addMiscLocation(14,205,160,264, new MiscFrame("A snow dog!"));
+      indoor3Listener.addMiscLocation(403,434,531,486, new MiscFrame("Another snow dog"));
+      indoor3Listener.addMiscLocation(660,195,770,264, new MiscFrame("A deformed snow dog?"));
+      indoor3Listener.addMiscLocation(667,446,781,515, new MiscFrame("Oh look...another snow dog..."));
+      indoor3Listener.addMiscLocation(374,205,431,280, new MiscFrame("You should know thats you by now"));
+      indoor3Listener.addMonsterLocation(204,9,368,350,blindDogFrame);
+      indoor3Listener.addKeyLocation(575,464,611,492,keyFrame);
+      indoor3Listener.addDoorLocation(668,322,793,417,indoor4Scene);
+      
+      indoor4Listener.reset();
+      indoor4Listener.addMiscLocation(155,155,612,263, new MiscFrame("Welcome to Snowdin!"));
+      indoor4Listener.addMiscLocation(373,272,429,365, new MiscFrame("Its you! Again..."));
+      indoor4Listener.addTreasureLocation(621, 203, 668, 267, treasureFrame);
+      indoor4Listener.addDoorLocation(5,251,88,383,indoor3Scene);
+      indoor4Listener.addDoorLocation(725,272,800,407,indoor5Scene);
+      
+      indoor5Listener.reset();
+      indoor5Listener.addMiscLocation(0,456,339,597, new MiscFrame("A bunch of harmless trees"));
+      indoor5Listener.addMiscLocation(383,308,427,376, new MiscFrame("This is getting old..."));
+      indoor5Listener.addDoorLocation(0,308,108,450, indoor4Scene);
+      indoor5Listener.addDoorLocation(697,302,802,450, indoor6Scene);
+      indoor5Listener.addMonsterLocation(32,156,168,298, papyrusFrame);
+      
+      indoor6Listener.reset();
+      indoor6Listener.addMiscLocation(358,162,447,186, new MiscFrame("A nice umbrella for a nice statue"));
+      indoor6Listener.addMiscLocation(393,314,446,383, new MiscFrame("You know who that is"));
+      indoor6Listener.addDoorLocation(0,303,93,404, indoor5Scene);
+      indoor6Listener.addDoorLocation(714,303,800,401,indoor7Scene);
+      indoor6Listener.addTreasureLocation(360,190,442,283, treasureFrame);
+      
+      indoor7Listener.reset();
+      indoor7Listener.addMiscLocation(299,241,549,326, new MiscFrame("How much property tax do you pay for a castle?"));
+      indoor7Listener.addMiscLocation(348,192,490,240, new MiscFrame("Maybe their renting it on Zillow?"));
+      indoor7Listener.addMiscLocation(401,130,442,191, new MiscFrame("Looks like a nice studio apartment"));
+      indoor7Listener.addMiscLocation(371,417,430,484, new MiscFrame("Please stop clicking yourself in public..."));
+      indoor7Listener.addDoorLocation(0,349,106,489, indoor6Scene);
+      indoor7Listener.addDoorLocation(466,351,649,491, indoor8Scene);
+      indoor7Listener.addMonsterLocation(652,217,800,494, undyneFrame);
+      
+      indoor8Listener.reset();
+      indoor8Listener.addMiscLocation(0,58,800,394, new MiscFrame("So far, yet so close. (Is that how it goes?)"));
+      indoor8Listener.addDoorLocation(0,403,123,526, indoor7Scene);
+      indoor8Listener.addDoorLocation(685,404,800,497, indoor9Scene);
+      
+      indoor9Listener.reset();
+      indoor9Listener.addMiscLocation(157,136,301,228, new MiscFrame("A window! (Deja vu?)"));
+      indoor9Listener.addMiscLocation(504,136,650,228, new MiscFrame("Yet again, another window! (Have we seen this before?)"));
+      indoor9Listener.addMiscLocation(355,85,452,131, new MiscFrame("Looks interesting, too bad you're illiterate"));
+      indoor9Listener.addMiscLocation(388, 446, 420, 471, new MiscFrame("No SOULS's here good sir, just a humble star"));
+      indoor9Listener.addDoorLocation(325, 498, 475, 598, indoor8Scene);
+      
+      
+      
+      
+      player.setTreasureAmount(0);
+      player.setKeyAmount(0);
+
+   }
+   public GameFrame setup()
+   {    
       entryScene = new SceneFrame("entryFlowerBed.png");
       indoor1Scene = new SceneFrame("indoor1TheRuins.png");
       indoor2Scene = new SceneFrame("indoor2ExitRuins.png");
@@ -48,7 +126,7 @@ public class Game
       indoor9Scene = new SceneFrame("indoor9NewHomeEntrance.png");
       
       floweyFrame = setupMonsterFrame("mediaFloweyGif.gif","Flowey");
-      blindDogFrame = setupMonsterFrame("mediaBlindDogGif.gif","Blind Guard Doggo");
+      blindDogFrame = setupMonsterFrame("mediaBlindDogGif.gif","Blind Doggo");
       papyrusFrame = setupMonsterFrame("mediaPapyrusGif.gif","Papyrus");
       sansFrame = setupMonsterFrame("mediaSansGif.gif","Sans");
       undyneFrame = setupMonsterFrame("mediaUndyneGif.gif", "Undyne");
@@ -69,79 +147,6 @@ public class Game
       indoor8Listener = setupMouseListener(indoor8Scene);
       indoor9Listener = setupMouseListener(indoor9Scene);
       
-      
-      entryListener.addMiscLocation(358,300,408,383, new MiscFrame("Thats you dummy!"));
-      entryListener.addMonsterLocation(301,295,450,405,floweyFrame);
-      entryListener.addDoorLocation(669,415,793,503,indoor1Scene);
-      
-      
-      indoor1Listener.addMiscLocation(202,66,316,141, new MiscFrame("Its a window..."));
-      indoor1Listener.addMiscLocation(472,66,588,141, new MiscFrame("OMG! It's just another window..."));
-      indoor1Listener.addMiscLocation(353,31,437,70,  new MiscFrame("Important looking writing. If only you could read..."));
-      indoor1Listener.addKeyLocation(240,215,276,252,keyFrame);
-      indoor1Listener.addTreasureLocation(295, 362, 502, 595, treasureFrame);
-      indoor1Listener.addDoorLocation(362,83,428,177,indoor2Scene);
-      
-      
-      indoor2Listener.addMiscLocation(344,397,397,467, new MiscFrame("You again!"));
-      indoor2Listener.addTreasureLocation(162,252,305,348,treasureFrame);
-      indoor2Listener.addDoorLocation(726,409,800,510,indoor3Scene);
-      indoor2Listener.addDoorLocation(25,159,157,457,indoor1Scene);
-      indoor2Listener.addMonsterLocation(340,8,789,387,sansFrame);
-      
-      
-      indoor3Listener.addMiscLocation(14,205,160,264, new MiscFrame("A snow dog!"));
-      indoor3Listener.addMiscLocation(403,434,531,486, new MiscFrame("Another snow dog"));
-      indoor3Listener.addMiscLocation(660,195,770,264, new MiscFrame("A deformed snow dog?"));
-      indoor3Listener.addMiscLocation(667,446,781,515, new MiscFrame("Oh look...another snow dog..."));
-      indoor3Listener.addMiscLocation(374,205,431,280, new MiscFrame("You should know thats you by now"));
-      indoor3Listener.addMonsterLocation(204,9,368,350,blindDogFrame);
-      indoor3Listener.addKeyLocation(575,464,611,492,keyFrame);
-      indoor3Listener.addDoorLocation(668,322,793,417,indoor4Scene);
-      
-      
-      indoor4Listener.addMiscLocation(155,155,612,263, new MiscFrame("Welcome to Snowdin!"));
-      indoor4Listener.addMiscLocation(373,272,429,365, new MiscFrame("Its you! Again..."));
-      indoor4Listener.addTreasureLocation(621, 203, 668, 267, treasureFrame);
-      indoor4Listener.addDoorLocation(5,251,88,383,indoor3Scene);
-      indoor4Listener.addDoorLocation(725,272,800,407,indoor5Scene);
-      
-      
-      indoor5Listener.addMiscLocation(0,456,339,597, new MiscFrame("A bunch of harmless trees"));
-      indoor5Listener.addMiscLocation(383,308,427,376, new MiscFrame("This is getting old..."));
-      indoor5Listener.addDoorLocation(0,308,108,450, indoor4Scene);
-      indoor5Listener.addDoorLocation(697,302,802,450, indoor6Scene);
-      indoor5Listener.addMonsterLocation(32,156,168,298, papyrusFrame);
-      
-      
-      indoor6Listener.addMiscLocation(358,162,447,186, new MiscFrame("A nice umbrella for a nice statue"));
-      indoor6Listener.addMiscLocation(393,314,446,383, new MiscFrame("You know who that is"));
-      indoor6Listener.addDoorLocation(0,303,93,404, indoor5Scene);
-      indoor6Listener.addDoorLocation(714,303,800,401,indoor7Scene);
-      indoor6Listener.addTreasureLocation(360,190,442,283, treasureFrame);
-      
-      
-      indoor7Listener.addMiscLocation(299,241,549,326, new MiscFrame("How much property tax do you pay for a castle?"));
-      indoor7Listener.addMiscLocation(348,192,490,240, new MiscFrame("Maybe their renting it on Zillow?"));
-      indoor7Listener.addMiscLocation(401,130,442,191, new MiscFrame("Looks like a nice studio apartment"));
-      indoor7Listener.addMiscLocation(371,417,430,484, new MiscFrame("Please stop clicking yourself in public..."));
-      indoor7Listener.addDoorLocation(0,349,106,489, indoor6Scene);
-      indoor7Listener.addDoorLocation(466,351,649,491, indoor8Scene);
-      indoor7Listener.addMonsterLocation(652,217,800,494, undyneFrame);
-      
-      
-      indoor8Listener.addMiscLocation(0,58,800,394, new MiscFrame("So far, yet so close. (Is that how it goes?)"));
-      indoor8Listener.addDoorLocation(0,403,123,526, indoor7Scene);
-      indoor8Listener.addDoorLocation(685,404,800,497, indoor9Scene);
-      
-      
-      indoor9Listener.addMiscLocation(157,136,301,228, new MiscFrame("A window! (Deja vu?)"));
-      indoor9Listener.addMiscLocation(504,136,650,228, new MiscFrame("Yet again, another window! (Have we seen this before?)"));
-      indoor9Listener.addMiscLocation(355,85,452,131, new MiscFrame("Looks interesting, too bad you're illiterate"));
-      indoor9Listener.addMiscLocation(388, 446, 420, 471, new MiscFrame("No SOULS's here good sir, just a humble star"));
-      indoor9Listener.addDoorLocation(325, 498, 475, 598, indoor8Scene);
-      
-      
       entryScene.addMouseListener(entryListener);
       indoor1Scene.addMouseListener(indoor1Listener);
       indoor2Scene.addMouseListener(indoor2Listener);
@@ -152,6 +157,8 @@ public class Game
       indoor7Scene.addMouseListener(indoor7Listener);
       indoor8Scene.addMouseListener(indoor8Listener);
       indoor9Scene.addMouseListener(indoor9Listener);
+      
+            //player.set
       
       return entryScene;
       
@@ -173,9 +180,5 @@ public class Game
    public KeyFrame setupKeyFrame(String imageFileName, String monsterName)
    {
       return new KeyFrame(imageFileName, monsterName, player);
-   }
-   public void resetGame()
-   {
-      startingFrame = setupGame();
    }
 }

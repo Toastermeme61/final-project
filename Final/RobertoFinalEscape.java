@@ -18,8 +18,8 @@ public class RobertoFinalEscape
       frameMain.setLocationRelativeTo(null);
       frameMain.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       frameMain.setResizable(false);
-      //frameMain.setUndecorated(true);
-      finalEscape.showWelcomeFrame(frameMain);
+      //finalEscape.showWelcomeFrame(frameMain);
+      finalEscape.showPlayGameFrame(frameMain);
    }
 /******************************************************************************
 *******************************************************************************
@@ -858,6 +858,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
+            game.reset();
             game.play();
          }
       }

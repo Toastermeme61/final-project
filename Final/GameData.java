@@ -50,14 +50,16 @@ class Location
 }
 class GameFrame
 {
-   JFrame frame =  new JFrame();
    JPanel panel =  new JPanel();
    RobertoFinalEscape object = new RobertoFinalEscape();
+   JFrame frame = new JFrame();
    String imageFileName;
    GameFrame(String image)
    {
       imageFileName = image;
       frame.setResizable(false);
+      frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+      panel.setBackground(Color.BLACK);
       
    }
    public JFrame getFrame()
@@ -68,6 +70,10 @@ class GameFrame
    {
    
    }
+   public void setCurrentFrame(GameFrame currentFrame)
+   {
+      
+   }
 }
 
 class SceneFrame extends GameFrame
@@ -75,7 +81,6 @@ class SceneFrame extends GameFrame
    SceneFrame(String imageFileName)
    {
       super(imageFileName);
-      frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       setupFrame();
    }
    public void setupFrame()
@@ -84,9 +89,12 @@ class SceneFrame extends GameFrame
       imageLabel.setIcon(new ImageIcon(imageFileName));
       
       panel.add(imageLabel);
+      frame.getContentPane().removeAll();
       frame.add(panel);
       frame.pack();
       frame.setLocationRelativeTo(null);
+      frame.setResizable(false);
+      frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
    }
    public void setVisible(JFrame previousFrame)
    {
@@ -103,12 +111,15 @@ class SubGameFrame extends GameFrame
 {
    String objectName;
    Player player;
+   
    SubGameFrame(String imageFileName, String name, Player player)
    {
       super(imageFileName);
+      frame  =  new JFrame();
       objectName = name;
       this.player = player;
       setupFrame();
+      
    }
    public void setVisible(JFrame previousFrame)
    {
@@ -135,6 +146,7 @@ class SubGameFrame extends GameFrame
       panel.add(imageLabel);
       panel.setLayout(null);
       frame.setSize(500,598);
+      
       frame.setLocationRelativeTo(null);
    }
    public void setupFrame()
@@ -155,6 +167,7 @@ class MonsterFrame extends SubGameFrame
       JButton feedButton = new JButton("Feed!");
       JButton runButton = new JButton("Run!");
       setSubFrameDefaults("Oh no! "+objectName+" stands in your way!What will you do?");
+      
       object.setupButton(bribeButton, 90, 450);
       object.setupButton(feedButton, 300,450);
       object.setupButton(runButton, 90, 500);
@@ -167,7 +180,9 @@ class MonsterFrame extends SubGameFrame
                {
                   
                   msgFrame.setText("Loudly condemns bribing while discretely taking bribe");
+                  msgFrame.setupMAL(getFrame());
                   msgFrame.setVisible(getFrame());
+                  
                   
                }
                else
@@ -184,11 +199,17 @@ class MonsterFrame extends SubGameFrame
             {
                if(player.feedMonster())
                {
-                  JOptionPane.showMessageDialog(null,"Delicious! (This spaghetti is horrible...)");
-                  getFrame().setVisible(false);
+                  msgFrame.setText("Eats spaghetti and gets tomato sauce everywhere");
+                  msgFrame.setupMAL(getFrame());
+                  msgFrame.setVisible(getFrame());
+                  
                }
                else
-                  JOptionPane.showMessageDialog(null,"You don't even have any food...");
+               {
+                  msgFrame.setText("You don't have any food! Liar!");
+                  msgFrame.setVisible(getFrame());
+               }
+               
             }
          }
          );
@@ -196,8 +217,18 @@ class MonsterFrame extends SubGameFrame
          {
             public void actionPerformed(ActionEvent e)
             {
-               JOptionPane.showMessageDialog(null,"Run away you sucker!");
-               getFrame().setVisible(false);
+               int randomInt = 1;
+               if (randomInt == 1)
+               {
+                  msgFrame.setText(objectName+" tried to follow but got lazy and did'nt");
+                  msgFrame.setupMAL(getFrame());
+                  msgFrame.setVisible(getFrame());
+               }
+               else
+               {
+                  msgFrame.setText("HA! You're not getting away that easily!");
+                  msgFrame.setVisible(getFrame());
+               }
             }
          }
          );
@@ -265,15 +296,28 @@ class MiscFrame extends GameFrame
 {
    JLabel text = new JLabel("");
    JLabel image = new JLabel();
+   JButton okButton = new JButton("Ok");
    MiscFrame(String text)
    {
       super("mediaTemmyGif.gif");
+      frame  =  new JFrame();
       this.text.setText(text);
       setupFrame();
    }
+   public void setupMAL(JFrame frame)
+   {
+      okButton.addActionListener(new ActionListener()
+         {
+            public void actionPerformed(ActionEvent e)
+            {               
+               getFrame().setVisible(false);
+               frame.setVisible(false);
+            }
+         }
+         );
+   }
    public void setupFrame()
    {
-      JButton okButton = new JButton("Ok");
       image.setIcon(new ImageIcon(imageFileName));
       image.setBounds(0,40,600,350);
       image.setHorizontalAlignment(JLabel.CENTER);
@@ -289,8 +333,7 @@ class MiscFrame extends GameFrame
       okButton.addActionListener(new ActionListener()
          {
             public void actionPerformed(ActionEvent e)
-            {
-               
+            {              
                getFrame().setVisible(false);
             }
          }
@@ -303,6 +346,8 @@ class MiscFrame extends GameFrame
       frame.add(panel);
       frame.setSize(600,350);
       frame.setLocationRelativeTo(null);
+      frame.setResizable(false);
+      frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
    }
    public void setVisible(JFrame previousFrame)
    {
@@ -319,17 +364,32 @@ class InventoryFrame extends GameFrame
    JLabel textKeyLabel = new JLabel() ;
    JLabel textTreasureLabel =  new JLabel() ;
    JLabel textBalanceLabel = new JLabel();
-      
-   InventoryFrame(Player player)
+   JButton quitButton = new JButton("Quit Game");
+   JFrame rootFrame;
+   InventoryFrame(Player player, JFrame rootFrame)
    {
       super("mediaInventory.png");
+      this.rootFrame = rootFrame;
       this.player = player;
       setupFrame();
    }
+   public void setCurrentFrame(GameFrame currentFrame)
+   {
+      quitButton.addActionListener(new ActionListener()
+         {
+            public void actionPerformed(ActionEvent e)
+            {
+               getFrame().setVisible(false);
+               currentFrame.getFrame().setVisible(false);
+               rootFrame.setVisible(true);
+            }
+         }
+         );
+   }
+   
    public void setupFrame()
    {
       JButton okButton = new JButton("Back To Game");
-      JButton quitButton = new JButton("Quit Game");
       JLabel imageKeyLabel  = new JLabel();
       JLabel imageTreasureLabel = new JLabel();
       JLabel imageLabel = new JLabel();
@@ -368,14 +428,6 @@ class InventoryFrame extends GameFrame
          );
          
       object.setupButton(quitButton,175,530);
-      quitButton.addActionListener(new ActionListener()
-         {
-            public void actionPerformed(ActionEvent e)
-            {
-               
-            }
-         }
-         );
       
       panel.add(okButton);
       panel.add(quitButton);
@@ -384,9 +436,11 @@ class InventoryFrame extends GameFrame
       panel.add(textBalanceLabel);
       panel.add(imageLabel);
       panel.setLayout(null);
+      panel.setBackground(Color.BLACK);
       frame.setSize(500,598);
+      frame.setResizable(false);
+      frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       frame.setLocationRelativeTo(null);
-      frame.setBackground(Color.BLACK);
       frame.add(panel);
    }
    public void setVisible(JFrame previousFrame)
@@ -476,6 +530,14 @@ class Player
    public void addKeyToInventory()
    {
       souls ++;
+   }
+   public void setTreasureAmount(int amount)
+   {
+      treasures = amount;
+   }
+   public void setKeyAmount(int amount)
+   {
+      souls = amount;
    }
    public void setAccountBalance(double amount)
    {

@@ -54,12 +54,21 @@ class MouseListener extends MouseAdapter
       else if (inventoryLocation.validate() != 0)
       {
          moveToRoom(inventoryLocation.getFrame());
+         inventoryLocation.getFrame().setCurrentFrame(currentFrame);
       }
       else
       {
          //counter ++;
          moveToRoom(new MiscFrame("Nothing here!"));
       }
+   }
+   public void reset()
+   {
+      miscLocationList.clear();
+      monsterLocationList.clear();
+      keyLocationList.clear();
+      treasureLocationList.clear();
+      doorLocationList.clear();
    }
    public void addMiscLocation(int x1, int y1, int x2, int y2, GameFrame frame)
    {
