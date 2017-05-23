@@ -365,6 +365,7 @@ class InventoryFrame extends GameFrame
    JLabel textTreasureLabel =  new JLabel() ;
    JLabel textBalanceLabel = new JLabel();
    JButton quitButton = new JButton("Quit Game");
+   GameFrame currentFrame;
    JFrame rootFrame;
    History history;
    InventoryFrame(Player player, JFrame rootFrame, History history)
@@ -377,18 +378,8 @@ class InventoryFrame extends GameFrame
    }
    public void setCurrentFrame(GameFrame currentFrame)
    {
-      quitButton.addActionListener(new ActionListener()
-         {
-            public void actionPerformed(ActionEvent e)
-            {
-               history.addLog(new Log(player));
-               getFrame().setVisible(false);
-               currentFrame.getFrame().setVisible(false);
-               rootFrame.setVisible(true);
-            }
-         }
-         );
-   }
+      this.currentFrame = currentFrame;
+   } 
    
    public void setupFrame()
    {
@@ -396,7 +387,7 @@ class InventoryFrame extends GameFrame
       JLabel imageKeyLabel  = new JLabel();
       JLabel imageTreasureLabel = new JLabel();
       JLabel imageLabel = new JLabel();
-     
+           
       imageLabel.setIcon(new ImageIcon(imageFileName));
       imageLabel.setBounds(0,0,500,598);
       imageLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -431,6 +422,18 @@ class InventoryFrame extends GameFrame
          );
          
       object.setupButton(quitButton,175,530);
+      quitButton.addActionListener(new ActionListener()
+         {
+            public void actionPerformed(ActionEvent e)
+            {
+               history.addLog(new Log(player));
+               getFrame().setVisible(false);
+               currentFrame.getFrame().setVisible(false);
+               rootFrame.setVisible(true);
+       
+            }
+         }
+         );
       
       panel.add(okButton);
       panel.add(quitButton);
@@ -641,15 +644,48 @@ class History
    Player player;
    ArrayList<Log> logList = new ArrayList<Log>();
    int wins, losses;
-   double initialBalance, currentBalance;
-   Date date = new Date();
-   String name, initialTime;
+   String name;
    History(Player player)
    {
       this.player = player;
       name = player.getName();
-      initialBalance = player.getAccountBalance();
-      initialTime = date.toString();
+      
+   }
+   public String getGameLogsAsString()
+   {
+      String logs = "";
+      
+      for(int x = 0; x< logList.size(); x++)
+      {
+         Log log = logList.get(x);
+         logs += "Game #"+(x+1)+" ended with "+name+" "
+         +escapeOrNot(log.validateEscape())+" after "+log.getClicks()
+         +" clicks - now has $"+log.getAccountBalance()+"\n";
+         
+         
+      }
+      return logs;
+   }
+   public String escapeOrNot(boolean escape)
+   {
+      String ans = ""; 
+      if(escape)
+         ans = "escaping";
+      else
+         ans = "not escaping";
+      return ans;
+   }
+   public int getWins()
+   {
+      return wins;
+   }
+   public int getLosses()
+   {
+      return losses;
+   }
+   public String getName()
+   {
+      return name;
    }
    public Log getLog(int index)
    {
@@ -659,7 +695,6 @@ class History
    {
       wins = calculateWins();
       losses = logList.size()-wins;
-      currentBalance = player.getAccountBalance();
    }
    public void addLog(Log log)
    {

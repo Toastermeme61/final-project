@@ -125,7 +125,7 @@ public class Game
       
       player.setTreasureAmount(0);
       player.setKeyAmount(0);
-      player.setAccountBalance(initialBalance);
+      //player.setAccountBalance(initialBalance);
       this.clicks = 0;
    }
    public GameFrame setup()

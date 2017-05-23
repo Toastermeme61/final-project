@@ -18,8 +18,8 @@ public class RobertoFinalEscape
       frameMain.setLocationRelativeTo(null);
       frameMain.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       frameMain.setResizable(false);
-      //finalEscape.showWelcomeFrame(frameMain);
-      finalEscape.showPlayGameFrame(frameMain);
+      finalEscape.showWelcomeFrame(frameMain);
+      //finalEscape.showPlayGameFrame(frameMain);
    }
 /******************************************************************************
 *******************************************************************************
@@ -582,7 +582,7 @@ public class RobertoFinalEscape
             aliasTxtField.setText("Dennis the Menace");
             
             birthYearTxtField.setText("1997");
-            depositTxtField.setText("12345");
+            depositTxtField.setText("1234");
          }
       
       panel.setLayout(null);
@@ -821,6 +821,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
+            gameHistory = new History(player);
             showPlayGameFrame(frame);
          }
       }
@@ -847,7 +848,7 @@ public class RobertoFinalEscape
    public void showPlayGameFrame(JFrame frame)
    {
       JPanel panel = new JPanel();
-      gameHistory = new History(player);
+      
       Game game = new Game(frame, player, gameHistory);
       JButton instructionsButton = new JButton("Instructions");
       JButton playButton = new JButton("Play");
@@ -883,7 +884,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
-            showHistoryFrame();
+            showHistoryFrame(frame);
          }
       }
       );
@@ -964,18 +965,82 @@ public class RobertoFinalEscape
       frame.setLocationRelativeTo(null);
       frame.setVisible(true);
    }
-
-   public void showHistoryFrame()
+   public void showHistoryFrame(JFrame frame)
    {
+      JPanel panel= new JPanel();
+      JButton historyButton = new JButton("Log");
+      JButton saveButton = new JButton ("Save to disk");
+      JButton loadButton = new JButton ("Load from disk");
+      JButton backButton = new JButton("Back");
+      
+      setupButton(historyButton, 425, 150);
+      historyButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            showHistory();
+         }
+      }
+      );
+      setupButton(saveButton, 425, 250);
+      saveButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            
+         }
+      }
+      );
+      setupButton(loadButton, 425, 350);
+      loadButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            
+         }
+      }
+      );
+      setupButton(backButton, 425, 450);
+      backButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            showPlayGameFrame(frame);  
+         }
+      }
+      );
+      panel.setLayout(null);
+      panel.setBackground(Color.BLACK);
+      panel.add(historyButton);
+      panel.add(saveButton);
+      panel.add(loadButton);
+      panel.add(backButton);
+      
+      frame.getContentPane().removeAll();
+      frame.setTitle("History");
+      frame.add(panel);
+      frame.setVisible(true);
+      
+      
+   }
+   public void showHistory()
+   {
+      String name = gameHistory.getName();
+      int wins = gameHistory.getWins();
+      int losses = gameHistory.getLosses();
       JFrame frame = new JFrame();
       JPanel panel = new JPanel();
       JTextPane textArea = new JTextPane();
       JButton backButton = new JButton("Back");
+      JLabel titleLabel = new JLabel(name+"'s ESCAPE History");
+      JLabel initialLabel = new JLabel();
       
-      textArea.setText(""+gameHistory.getLog(0).getClicks());
+      setupLabel(titleLabel,0,30);
       
-      setupTextArea(textArea,50,200);
-      setupButton(backButton, 175, 500);
+      textArea.setText("Wins: "+wins+"\nLosses: "+losses+"\nGame History:\n"+gameHistory.getGameLogsAsString());
+      
+      setupTextArea(textArea,0,80);
+      setupButton(backButton, 350, 500);
       backButton.addActionListener(new ActionListener()
       {
          public void actionPerformed(ActionEvent e)
@@ -989,10 +1054,11 @@ public class RobertoFinalEscape
       panel.setLayout(null);
       panel.setBackground(Color.BLACK);
       panel.add(textArea);
+      panel.add(titleLabel);
       panel.add(backButton);
       
       frame.add(panel);
-      frame.setSize(500,598);
+      frame.setSize(850,598);
       frame.setLocationRelativeTo(null);
       frame.setVisible(true);
    }
