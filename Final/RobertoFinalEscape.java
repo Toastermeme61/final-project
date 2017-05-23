@@ -848,8 +848,8 @@ public class RobertoFinalEscape
    public void showPlayGameFrame(JFrame frame)
    {
       JPanel panel = new JPanel();
-      
-      Game game = new Game(frame, player, gameHistory);
+      //History gameHistory = new History(player);
+      Game game = new Game(frame, player, gameHistory, gameParameters);
       JButton instructionsButton = new JButton("Instructions");
       JButton playButton = new JButton("Play");
       JButton historyButton = new JButton("History");

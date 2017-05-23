@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-
+import java.text.NumberFormat;
 class Location
 {
    int column1,row1,column2, row2;
@@ -156,9 +156,13 @@ class SubGameFrame extends GameFrame
 }
 class MonsterFrame extends SubGameFrame
 {
-   MonsterFrame(String imageFileName, String name, Player player)
+   History gameHistory;
+   JFrame rootFrame;
+   MonsterFrame(String imageFileName, String name, Player player, History history, JFrame frame)
    {
       super(imageFileName, name, player);
+      gameHistory = history;
+      rootFrame = frame;
    }
    public void setupFrame()
    { 
@@ -166,7 +170,7 @@ class MonsterFrame extends SubGameFrame
       JButton bribeButton = new JButton("Bribe!");
       JButton feedButton = new JButton("Feed!");
       JButton runButton = new JButton("Run!");
-      setSubFrameDefaults("Oh no! "+objectName+" stands in your way!What will you do?");
+      setSubFrameDefaults("Oh no! "+objectName+" stands in your way,"+player.getAlias());
       
       object.setupButton(bribeButton, 90, 450);
       object.setupButton(feedButton, 300,450);
@@ -187,7 +191,9 @@ class MonsterFrame extends SubGameFrame
                }
                else
                {
+                  gameHistory.addLog(new Log(player));
                   msgFrame.setText("Sorry, you dont have the funds");
+                  msgFrame.setupMAL(getFrame(), rootFrame);
                   msgFrame.setVisible(getFrame());
                }
             }
@@ -206,7 +212,9 @@ class MonsterFrame extends SubGameFrame
                }
                else
                {
+                  gameHistory.addLog(new Log(player));
                   msgFrame.setText("You don't have any food! Liar!");
+                  msgFrame.setupMAL(getFrame(), rootFrame);
                   msgFrame.setVisible(getFrame());
                }
                
@@ -217,7 +225,7 @@ class MonsterFrame extends SubGameFrame
          {
             public void actionPerformed(ActionEvent e)
             {
-               int randomInt = 1;
+               int randomInt = new Random().nextInt(3);
                if (randomInt == 1)
                {
                   msgFrame.setText(objectName+" tried to follow but got lazy and did'nt");
@@ -226,7 +234,9 @@ class MonsterFrame extends SubGameFrame
                }
                else
                {
+                  gameHistory.addLog(new Log(player));
                   msgFrame.setText("HA! You're not getting away that easily!");
+                  msgFrame.setupMAL(getFrame(),rootFrame);
                   msgFrame.setVisible(getFrame());
                }
             }
@@ -312,6 +322,19 @@ class MiscFrame extends GameFrame
             {               
                getFrame().setVisible(false);
                frame.setVisible(false);
+            }
+         }
+         );
+   }
+   public void setupMAL(JFrame currentFrame, JFrame rootFrame)
+   {
+      okButton.addActionListener(new ActionListener()
+         {
+            public void actionPerformed(ActionEvent e)
+            {               
+               getFrame().setVisible(false);
+               currentFrame.setVisible(false);
+               rootFrame.setVisible(true);
             }
          }
          );
@@ -454,6 +477,69 @@ class InventoryFrame extends GameFrame
       textKeyLabel.setText("You have "+player.getKeyAmount()+" SOUL's");
       textTreasureLabel.setText("You have "+player.getTreasureAmount()+" Moldy Spaghetti Bowls");
       textBalanceLabel.setText("Your account balance is $"+player.getAccountBalance());
+      frame.setVisible(true);
+   }
+}
+class ExitGameFrame extends GameFrame
+{
+   JFrame rootFrame;
+   Player player;
+   History history;
+   ExitGameFrame(JFrame frame, Player player, History history)
+   {
+      super("");
+      rootFrame = frame;
+      this.player = player;
+      this.history = history;
+      setupFrame();
+   }
+   public void setupFrame()
+   {
+      JButton menuButton = new JButton("Main Menu");
+      JButton exitButton = new JButton("Exit");
+      JTextArea textArea = new JTextArea();
+      RobertoFinalEscape object = new RobertoFinalEscape();
+      NumberFormat currencyFormater = NumberFormat.getCurrencyInstance();
+      String text;
+//       
+//       text = "THE GREAT ESCAPE ACCOUNT BALANCE\n"
+//             +"================================\n"
+//             +"\nSummary of "+player.getName()+"'s Account for alias of "+player.getAlias()+":\n"
+//             +"\n"+currencyFormater.format(history.getInitialBalance())+" - Amount  into your account";
+//       
+      object.setupButton(menuButton, 325,350 );
+      menuButton.addActionListener( new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            history.addLog(new Log(player));
+            getFrame().setVisible(false);
+            rootFrame.setVisible(true);
+            
+         }
+      }
+      );
+      object.setupButton(exitButton,325,450);
+      exitButton.addActionListener( new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            object.showExitFrame(rootFrame);
+         }
+      }
+      );
+      panel.setLayout(null);
+      panel.setBackground(Color.BLACK);
+      panel.add(exitButton);
+      panel.add(menuButton);
+      
+      frame.setSize(800,598);
+      frame.add(panel);
+      frame.setLocationRelativeTo(null);
+   }
+   public void setVisible(JFrame previousFrame)
+   {
+      previousFrame.setVisible(false);
       frame.setVisible(true);
    }
 }
@@ -643,24 +729,26 @@ class History
 {
    Player player;
    ArrayList<Log> logList = new ArrayList<Log>();
+   double initialBalance;
    int wins, losses;
    String name;
    History(Player player)
    {
       this.player = player;
       name = player.getName();
+      initialBalance = player.getAccountBalance();
       
    }
    public String getGameLogsAsString()
    {
       String logs = "";
-      
+      NumberFormat currencyFormater = NumberFormat.getCurrencyInstance();
       for(int x = 0; x< logList.size(); x++)
       {
          Log log = logList.get(x);
          logs += "Game #"+(x+1)+" ended with "+name+" "
          +escapeOrNot(log.validateEscape())+" after "+log.getClicks()
-         +" clicks - now has $"+log.getAccountBalance()+"\n";
+         +" clicks - now has "+currencyFormater.format(log.getAccountBalance())+"\n";
          
          
       }
@@ -674,6 +762,10 @@ class History
       else
          ans = "not escaping";
       return ans;
+   }
+   public double getInitialBalance()
+   {
+      return initialBalance;
    }
    public int getWins()
    {

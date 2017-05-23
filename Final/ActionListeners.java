@@ -11,6 +11,7 @@ class MouseListener extends MouseAdapter
    ArrayList<Location> keyLocationList = new ArrayList<Location>();
    ArrayList<Location> inventoryLocationList = new ArrayList<Location>();
    ArrayList<Location> miscLocationList = new ArrayList<Location>();
+   Location finalDoorLocation = new Location();
    MouseListener(SceneFrame frame, InventoryFrame inventory, Game game)
    {
       this.game = game;
@@ -34,6 +35,11 @@ class MouseListener extends MouseAdapter
       {
          moveToRoom(doorLocation.getFrame());
       }
+      else if (keyLocation.validate() != 0)
+      {
+         keyLocationList.remove(keyLocationList.indexOf(keyLocation));
+         moveToRoom(keyLocation.getFrame());
+      }
       else if(miscLocation.validate() != 0)
       {
          moveToRoom(miscLocation.getFrame());
@@ -48,20 +54,28 @@ class MouseListener extends MouseAdapter
          monsterLocationList.remove(monsterLocationList.indexOf(monsterLocation));
          moveToRoom(monsterLocation.getFrame());
       }
-      else if (keyLocation.validate() != 0)
-      {
-         keyLocationList.remove(keyLocationList.indexOf(keyLocation));
-         moveToRoom(keyLocation.getFrame());
-      }
       else if (inventoryLocation.validate() != 0)
       {
          moveToRoom(inventoryLocation.getFrame());
          inventoryLocation.getFrame().setCurrentFrame(currentFrame);
       }
+      else if (finalDoorLocation.validate() != 0)
+      {
+         if(game.getKeyAmount()>=1)
+         {
+            moveToRoom(new MiscFrame("FREEDOM!"));
+            game.setEscape(true);
+            moveToRoom(finalDoorLocation.getFrame());
+         }
+         else
+         {
+            moveToRoom(new MiscFrame("You need a key to ESCAPE Dummy"));
+         }
+      }
       else
       {
-         //counter ++;
-         moveToRoom(new MiscFrame("Nothing here!"));
+         String[] messages = {"Nothing here!","Are you even trying?","I think you found something! Lol wait nope","Try looking in the source code","The way out? Im just a cat, figure it out",};
+         moveToRoom(new MiscFrame(messages[new Random().nextInt(messages.length)]));
       }
       game.playerClick();
    }
@@ -92,6 +106,10 @@ class MouseListener extends MouseAdapter
    public void addKeyLocation(int x1, int y1, int x2, int y2, GameFrame frame)
    {
       keyLocationList.add(new Location(x1,y1,x2,y2,frame));
+   }
+   public void setFinalDoorLocation(int x1, int y1, int x2, int y2, GameFrame frame)
+   {
+      finalDoorLocation = new Location(x1,y1,x2,y2,frame);
    }
    public void moveToRoom(GameFrame newFrame)
    {

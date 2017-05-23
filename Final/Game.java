@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 public class Game
 {
    double initialBalance;
@@ -12,24 +13,22 @@ public class Game
    KeyFrame keyFrame;
    JFrame interfaceFrame;
    InventoryFrame inventory;
+   ExitGameFrame finalFrame;
    GameFrame startingFrame;
    Player player;
-   Game(JFrame frame, Player player, History gameHistory)
+   History gameHistory;
+   GameParameters gameParameters;
+   Game(JFrame frame, Player player, History gameHistory, GameParameters gameParameters)
    {
       this.player = player;
       interfaceFrame = frame;
       inventory = new InventoryFrame(player, interfaceFrame, gameHistory);
+      finalFrame = new ExitGameFrame(interfaceFrame, player, gameHistory);
+      this.gameHistory = gameHistory;
       initialBalance = player.getAccountBalance();
+      this.gameParameters = gameParameters;
       startingFrame = setup();
    }
-//    public static void main (String[] args)
-//    {
-//       JFrame frame = new JFrame();
-//       Player player =  new Player();
-//       Game game = new Game(frame, player);
-//       game.play();
-//       
-//    }
    public void playerClick()
    {
       clicks++;
@@ -38,13 +37,48 @@ public class Game
    {
       return clicks;
    }
+   public int getKeyAmount()
+   {
+      return player.getKeyAmount();
+   }
    public boolean validateEscape()
    {
       return escape;
    }
+   public void setEscape(boolean escape)
+   {
+      this.escape = escape;
+   }
    public void play()
    {
       startingFrame.setVisible(interfaceFrame);
+   }
+   public void addKeyAtRandom(int keys)
+   {
+      for(int x =0; x<keys;x++)
+      {
+         int random = new Random().nextInt(3);
+         if(random == 0)
+         {
+            indoor1Listener.addKeyLocation(240,215,276,252,keyFrame);
+            indoor3Listener.addMiscLocation(575,464,611,492,new MiscFrame("No SOULS's here good sir, just a humble star"));
+            indoor9Listener.addMiscLocation(388, 446, 420, 471, new MiscFrame("No SOULS's here good sir, just a humble star"));
+
+         }
+         else if (random == 1)
+         {
+            indoor3Listener.addKeyLocation(575,464,611,492,keyFrame);
+            indoor9Listener.addMiscLocation(388, 446, 420, 471, new MiscFrame("No SOULS's here good sir, just a humble star"));
+            indoor1Listener.addMiscLocation(240,215,276,252,new MiscFrame("No SOULS's here good sir, just a humble star"));
+
+         }
+         else
+         {
+            indoor9Listener.addKeyLocation(388, 446, 420, 471, keyFrame);
+            indoor3Listener.addMiscLocation(575,464,611,492,new MiscFrame("No SOULS's here good sir, just a humble star"));
+            indoor1Listener.addMiscLocation(240,215,276,252,new MiscFrame("No SOULS's here good sir, just a humble star"));
+         }
+      }
    }
    public void reset()
    {
@@ -57,7 +91,6 @@ public class Game
       indoor1Listener.addMiscLocation(202,66,316,141, new MiscFrame("Its a window..."));
       indoor1Listener.addMiscLocation(472,66,588,141, new MiscFrame("OMG! It's just another window..."));
       indoor1Listener.addMiscLocation(353,31,437,70,  new MiscFrame("Important looking writing. If only you could read..."));
-      indoor1Listener.addKeyLocation(240,215,276,252,keyFrame);
       indoor1Listener.addTreasureLocation(295, 362, 502, 595, treasureFrame);
       indoor1Listener.addDoorLocation(362,83,428,177,indoor2Scene);
       
@@ -75,7 +108,6 @@ public class Game
       indoor3Listener.addMiscLocation(667,446,781,515, new MiscFrame("Oh look...another snow dog..."));
       indoor3Listener.addMiscLocation(374,205,431,280, new MiscFrame("You should know thats you by now"));
       indoor3Listener.addMonsterLocation(204,9,368,350,blindDogFrame);
-      indoor3Listener.addKeyLocation(575,464,611,492,keyFrame);
       indoor3Listener.addDoorLocation(668,322,793,417,indoor4Scene);
       
       indoor4Listener.reset();
@@ -117,10 +149,13 @@ public class Game
       indoor9Listener.addMiscLocation(157,136,301,228, new MiscFrame("A window! (Deja vu?)"));
       indoor9Listener.addMiscLocation(504,136,650,228, new MiscFrame("Yet again, another window! (Have we seen this before?)"));
       indoor9Listener.addMiscLocation(355,85,452,131, new MiscFrame("Looks interesting, too bad you're illiterate"));
-      indoor9Listener.addMiscLocation(388, 446, 420, 471, new MiscFrame("No SOULS's here good sir, just a humble star"));
+      indoor9Listener.setFinalDoorLocation(355,145,453,281, finalFrame);
       indoor9Listener.addDoorLocation(325, 498, 475, 598, indoor8Scene);
       
-      
+      if(gameParameters.validateExtraKey())
+         addKeyAtRandom(2);
+      else
+         addKeyAtRandom(1);
       
       
       player.setTreasureAmount(0);
@@ -187,7 +222,7 @@ public class Game
    }
    public MonsterFrame setupMonsterFrame(String imageFileName, String monsterName)
    {
-      return new MonsterFrame(imageFileName, monsterName, player);
+      return new MonsterFrame(imageFileName, monsterName, player, gameHistory, interfaceFrame);
    }
    public TreasureFrame setupTreasureFrame(String imageFileName, String monsterName)
    {
