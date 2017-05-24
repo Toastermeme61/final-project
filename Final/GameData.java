@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import java.text.NumberFormat;
+import java.lang.Math;
 class Location
 {
    int column1,row1,column2, row2;
@@ -180,10 +181,10 @@ class MonsterFrame extends SubGameFrame
             public void actionPerformed(ActionEvent e)
             {
                
-               if (player.bribeMonster(1000))
+               if (player.bribeMonster())
                {
                   
-                  msgFrame.setText("Loudly condemns bribing while discretely taking bribe");
+                  msgFrame.setText("Takes everything you have. Except $2.50 for the bus");
                   msgFrame.setupMAL(getFrame());
                   msgFrame.setVisible(getFrame());
                   
@@ -646,7 +647,7 @@ class Player
    }
    public void setAccountBalance(double amount)
    {
-      accountBalance = amount;
+      accountBalance = (Math.round(amount*100))/100;
    }
    public boolean feedMonster()
    {
@@ -658,12 +659,12 @@ class Player
       }
       return indicator;
    }
-   public boolean bribeMonster(double bribe)
+   public boolean bribeMonster()
    { 
       boolean indicator = false;
-      if(getAccountBalance()-bribe >= 0)
+      if(getAccountBalance() > 2.5)
       {
-         setAccountBalance(getAccountBalance()-bribe);
+         setAccountBalance(2.5);
          indicator = true;
       }
       return indicator;

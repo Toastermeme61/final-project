@@ -11,7 +11,8 @@ class MouseListener extends MouseAdapter
    ArrayList<Location> keyLocationList = new ArrayList<Location>();
    ArrayList<Location> inventoryLocationList = new ArrayList<Location>();
    ArrayList<Location> miscLocationList = new ArrayList<Location>();
-   Location finalDoorLocation = new Location();
+   ArrayList<Location> finalLocationList = new ArrayList<Location>();
+   ArrayList<Location> entranceLocationList = new ArrayList<Location>();
    MouseListener(SceneFrame frame, InventoryFrame inventory, Game game)
    {
       this.game = game;
@@ -23,13 +24,15 @@ class MouseListener extends MouseAdapter
       int x,y;
       x = e.getX();
       y = e.getY();
-      Location doorLocation, monsterLocation, treasureLocation, keyLocation, inventoryLocation, miscLocation;
+      Location doorLocation, monsterLocation, treasureLocation, keyLocation, inventoryLocation, miscLocation, finalDoorLocation, entranceDoorLocation;
       doorLocation = validateLocation(doorLocationList,x,y);
       treasureLocation = validateLocation(treasureLocationList,x,y);
       monsterLocation = validateLocation(monsterLocationList,x,y);
       keyLocation = validateLocation(keyLocationList,x,y);
       inventoryLocation = validateLocation(inventoryLocationList,x,y);
       miscLocation = validateLocation(miscLocationList,x,y);
+      entranceDoorLocation = validateLocation(entranceLocationList,x,y);
+      finalDoorLocation = validateLocation(finalLocationList,x,y);
       
       if (doorLocation.validate() != 0)
       {
@@ -39,10 +42,6 @@ class MouseListener extends MouseAdapter
       {
          keyLocationList.remove(keyLocationList.indexOf(keyLocation));
          moveToRoom(keyLocation.getFrame());
-      }
-      else if(miscLocation.validate() != 0)
-      {
-         moveToRoom(miscLocation.getFrame());
       }
       else if (treasureLocation.validate() != 0)
       {
@@ -54,6 +53,11 @@ class MouseListener extends MouseAdapter
          monsterLocationList.remove(monsterLocationList.indexOf(monsterLocation));
          moveToRoom(monsterLocation.getFrame());
       }
+      else if(miscLocation.validate() != 0)
+      {
+         moveToRoom(miscLocation.getFrame());
+      }
+      
       else if (inventoryLocation.validate() != 0)
       {
          moveToRoom(inventoryLocation.getFrame());
@@ -71,6 +75,24 @@ class MouseListener extends MouseAdapter
          {
             moveToRoom(new MiscFrame("You need a key to ESCAPE Dummy"));
          }
+      }
+      else if (entranceDoorLocation.validate() != 0)
+      {
+         double balance = game.getAccountBalance();
+         
+         if(balance-25>=0)
+         {
+            game.setAccountBalance(balance-25);
+            moveToRoom(new MiscFrame("Welcome "+game.getName()+"! (Steals $25 from your pocket)"));
+            moveToRoom(entranceDoorLocation.getFrame());
+         }
+         else
+         {
+            moveToRoom(new MiscFrame("Less than $25?! Your not even worth the effort"));
+            currentFrame.getFrame().setVisible(false);
+            game.interfaceFrame.setVisible(true);
+         }
+         
       }
       else
       {
@@ -109,7 +131,11 @@ class MouseListener extends MouseAdapter
    }
    public void setFinalDoorLocation(int x1, int y1, int x2, int y2, GameFrame frame)
    {
-      finalDoorLocation = new Location(x1,y1,x2,y2,frame);
+      finalLocationList.add( new Location(x1,y1,x2,y2,frame));
+   }
+   public void setEntranceDoorLocation(int x1, int y1, int x2, int y2, GameFrame frame)
+   {
+      entranceLocationList.add(new Location(x1,y1,x2,y2, frame));
    }
    public void moveToRoom(GameFrame newFrame)
    {

@@ -905,7 +905,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
-            //showSolutionFrame();
+            showSolutionFrame();
          }
       }
       );
@@ -933,17 +933,34 @@ public class RobertoFinalEscape
 	DESCRIPTION:    
    
 ******************************************************************************/
-
-   public void showInstructionsFrame()
+   public void showSolutionFrame()
    {
       JFrame frame = new JFrame();
       JPanel panel = new JPanel();
       JTextPane textArea = new JTextPane();
       JButton backButton = new JButton("Back");
       
-      textArea.setText("Hello Bitch");
+      String text = "Souls are placed at random but are\n"
+                   +"easy to find since they only alternate\n"
+                   +"through three locations. AKA The yellow\n"
+                   +"stars. So click on every star you see\n"
+                   +"Click on the rightermost path\n"
+                   +"Click on the door\n"
+                   +"Click on the rightermost edge of the path\n"
+                   +"Click on the rightermost edge fo the path\n"
+                   +"Click on the flower on the right(Treasure)\n"
+                   +"Click on the snow below the cottage\n"
+                   +"Click on the rightermost edge of the path\n"
+                   +"Click on the right edge of the cave\n"
+                   +"Click on the base of the mountain\n"
+                   +"Click on the right part of the path\n"
+                   +"Click on the door. ESCAPE";
       
-      setupTextArea(textArea,50,200);
+      textArea.setText(text);
+      
+      setupTextArea(textArea,0,0);
+      textArea.setBounds(50,50,500,800);
+      
       setupButton(backButton, 175, 500);
       backButton.addActionListener(new ActionListener()
       {
@@ -957,11 +974,62 @@ public class RobertoFinalEscape
       
       panel.setLayout(null);
       panel.setBackground(Color.BLACK);
-      panel.add(textArea);
       panel.add(backButton);
+      panel.add(textArea);
+      
       
       frame.add(panel);
       frame.setSize(500,598);
+      frame.setLocationRelativeTo(null);
+      frame.setVisible(true);
+   }
+   public void showInstructionsFrame()
+   {
+      JFrame frame = new JFrame();
+      JPanel panel = new JPanel();
+      JTextPane textArea = new JTextPane();
+      JButton backButton = new JButton("Back");
+      
+      String text = "To interact with the room and\nnavigate through"
+                   +"the game you must\nclick on the scene and see what happens.\n"
+                   +"You will either find a treasure, \na key, a monster, or a door\n"
+                   +"waiting for you after clicking \nor you will simply find nothing.\n"
+                   +"When you find a monster youll \nhave the option to feed it \n"
+                   +"using your treasure, bribe it \nusing all but $2.50 dollars in your account or\n"
+                   +"attempt to flee (You have a \none in three chance to do so).\n"
+                   +"If you cant bribe, feed or run from \nthe monster you automatically lose.\n"
+                   +"In order to ESCAPE, you will need \nto collect at least one SOUL.\n"
+                   +"You can click the chest at the bottom\n"
+                   +"right corner at any time to open\n"
+                   +"your inventory where you can see the\n"
+                   +"amoun tof keys, treasures and money\n"
+                   +"you have besides exiting the game if you\n"
+                   +"want to";
+      
+      textArea.setText(text);
+      
+      setupTextArea(textArea,0,0);
+      textArea.setBounds(50,50,500,800);
+      
+      setupButton(backButton, 225, 500);
+      backButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            frame.setVisible(false);
+            frame.dispose();
+         }
+      }
+      );
+      
+      panel.setLayout(null);
+      panel.setBackground(Color.BLACK);
+      panel.add(backButton);
+      panel.add(textArea);
+      
+      
+      frame.add(panel);
+      frame.setSize(600,598);
       frame.setLocationRelativeTo(null);
       frame.setVisible(true);
    }
