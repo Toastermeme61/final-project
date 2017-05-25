@@ -1,3 +1,36 @@
+/***************************************************************   
+***************************************************************    
+***************************************************************    
+                                                         			    		   	          
+                   			ID INFORMATION                         		          
+                                                        			    		                      
+   		Programmer			:		Cardenas Roberto                
+   		Assignment #		:   	Final Escape                   	
+   		Assignment Name   :	   Final Escape
+   		Course # and Title:	   CISC 190 - Java    	
+   		Class Meeting Time:	   TTH 1:00 – 4:05	
+  		   Instructor			:	   Professor Forman 
+  		   Hours			   	:	   44.5
+   		Difficulty			:	   10/10			
+   		Completion Date	:	   05/24/2017 	
+   		File Name			:  	ActionListeners
+         
+****************************************************************
+                  Methods List
+     mouseClicked()
+     reset()
+     addMiscLocation()
+     addDoorLocation()
+     addMonsterLocation
+     addTreasureLocation
+     addKeyLocation
+     setFinalDoorLocation
+     setEntranceDoorLocation
+     moveToRoom
+     validateLocation
+     
+
+***************************************************************/
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;

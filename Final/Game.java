@@ -1,3 +1,42 @@
+/***************************************************************   
+***************************************************************    
+***************************************************************    
+                                                         			    		   	          
+                   			ID INFORMATION                         		          
+                                                        			    		                      
+   		Programmer			:		Cardenas Roberto                
+   		Assignment #		:   	Final Escape                   	
+   		Assignment Name   :	   Final Escape
+   		Course # and Title:	   CISC 190 - Java    	
+   		Class Meeting Time:	   TTH 1:00 – 4:05	
+  		   Instructor			:	   Professor Forman 
+  		   Hours			   	:	   44.5
+   		Difficulty			:	   10/10			
+   		Completion Date	:	   05/24/2017 	
+   		File Name			:  	Game
+***************************************************************
+                         Methods List
+      playerClick
+      getClicks
+      getName
+      getAccountBalance
+      setAccountBalance
+      getKeyAmount
+      validateEscape
+      setEscape
+      play
+      addKeyAtRandom
+      addExtraTreasure
+      addExtraMonster
+      reset
+      setup
+      setupMouseListener
+      setupMonsterFrame
+      setupTreasureFrame
+      setupKeyFrame
+      
+      
+***************************************************************/
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
