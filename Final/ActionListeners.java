@@ -1,6 +1,8 @@
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.applet.*; //Audioclip, Applet
+import java.net.URL;
 class MouseListener extends MouseAdapter
 {
    GameFrame currentFrame;
@@ -13,6 +15,12 @@ class MouseListener extends MouseAdapter
    ArrayList<Location> miscLocationList = new ArrayList<Location>();
    ArrayList<Location> finalLocationList = new ArrayList<Location>();
    ArrayList<Location> entranceLocationList = new ArrayList<Location>();
+   URL url = MouseListener.class.getResource("audioDoor.wav");
+   AudioClip doorClip = Applet.newAudioClip(url);
+   URL url2 = MouseListener.class.getResource("audioMonster.wav");
+   AudioClip monsterClip = Applet.newAudioClip(url2);
+   URL url3 = MouseListener.class.getResource("audioItem.wav");
+   AudioClip itemClip = Applet.newAudioClip(url3);
    MouseListener(SceneFrame frame, InventoryFrame inventory, Game game)
    {
       this.game = game;
@@ -36,20 +44,25 @@ class MouseListener extends MouseAdapter
       
       if (doorLocation.validate() != 0)
       {
+         
+         doorClip.play();
          moveToRoom(doorLocation.getFrame());
       }
       else if (keyLocation.validate() != 0)
       {
+         itemClip.play();
          keyLocationList.remove(keyLocationList.indexOf(keyLocation));
          moveToRoom(keyLocation.getFrame());
       }
       else if (treasureLocation.validate() != 0)
       {
+         itemClip.play();
          treasureLocationList.remove(treasureLocationList.indexOf(treasureLocation));
          moveToRoom(treasureLocation.getFrame());
       }
       else if (monsterLocation.validate() != 0)
       {
+         monsterClip.play();
          monsterLocationList.remove(monsterLocationList.indexOf(monsterLocation));
          moveToRoom(monsterLocation.getFrame());
       }
@@ -67,9 +80,14 @@ class MouseListener extends MouseAdapter
       {
          if(game.getKeyAmount()>=1)
          {
+            URL url = MouseListener.class.getResource("audioEscape.wav");
+            AudioClip clip = Applet.newAudioClip(url);
+            
             moveToRoom(new MiscFrame("FREEDOM!"));
             game.setEscape(true);
+            game.setAccountBalance(game.getAccountBalance()+100);
             moveToRoom(finalDoorLocation.getFrame());
+            clip.play();
          }
          else
          {
@@ -82,6 +100,7 @@ class MouseListener extends MouseAdapter
          
          if(balance-25>=0)
          {
+            doorClip.play();
             game.setAccountBalance(balance-25);
             moveToRoom(new MiscFrame("Welcome "+game.getName()+"! (Steals $25 from your pocket)"));
             moveToRoom(entranceDoorLocation.getFrame());
@@ -89,8 +108,10 @@ class MouseListener extends MouseAdapter
          else
          {
             moveToRoom(new MiscFrame("Less than $25?! Your not even worth the effort"));
-            currentFrame.getFrame().setVisible(false);
-            game.interfaceFrame.setVisible(true);
+            double deposit = Double.parseDouble(JOptionPane.showInputDialog(null,"Deposit money to play"));
+            game.setAccountBalance(game.getAccountBalance()+deposit);
+            // currentFrame.getFrame().setVisible(false);
+//             game.interfaceFrame.setVisible(true);
          }
          
       }

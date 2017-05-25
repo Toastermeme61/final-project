@@ -4,6 +4,8 @@ import java.awt.event.*;
 import java.util.*;
 import java.text.NumberFormat;
 import java.lang.Math;
+import java.applet.*; //Audioclip, Applet
+import java.net.URL;
 class Location
 {
    int column1,row1,column2, row2;
@@ -499,15 +501,15 @@ class ExitGameFrame extends GameFrame
       JButton menuButton = new JButton("Main Menu");
       JButton exitButton = new JButton("Exit");
       JTextArea textArea = new JTextArea();
+      JLabel image = new JLabel();
       RobertoFinalEscape object = new RobertoFinalEscape();
       NumberFormat currencyFormater = NumberFormat.getCurrencyInstance();
       String text;
-//       
-//       text = "THE GREAT ESCAPE ACCOUNT BALANCE\n"
-//             +"================================\n"
-//             +"\nSummary of "+player.getName()+"'s Account for alias of "+player.getAlias()+":\n"
-//             +"\n"+currencyFormater.format(history.getInitialBalance())+" - Amount  into your account";
-//       
+     
+      image.setIcon(new ImageIcon(object.editImage("exitEscape.jpg",700,300)));
+      image.setBounds(0,0,800,300);
+      image.setHorizontalAlignment(JLabel.CENTER);
+      
       object.setupButton(menuButton, 325,350 );
       menuButton.addActionListener( new ActionListener()
       {
@@ -531,6 +533,7 @@ class ExitGameFrame extends GameFrame
       );
       panel.setLayout(null);
       panel.setBackground(Color.BLACK);
+      panel.add(image);
       panel.add(exitButton);
       panel.add(menuButton);
       
@@ -647,7 +650,10 @@ class Player
    }
    public void setAccountBalance(double amount)
    {
-      accountBalance = (Math.round(amount*100))/100;
+      
+      double balance = Math.round(amount*100);
+      balance = balance/100.0;
+      accountBalance = balance;
    }
    public boolean feedMonster()
    {
@@ -664,7 +670,7 @@ class Player
       boolean indicator = false;
       if(getAccountBalance() > 2.5)
       {
-         setAccountBalance(2.5);
+         setAccountBalance(2.50);
          indicator = true;
       }
       return indicator;

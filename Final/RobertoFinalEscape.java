@@ -1,3 +1,28 @@
+/***************************************************************   
+***************************************************************    
+***************************************************************    
+                                                         			    		   	          
+                   			ID INFORMATION                         		          
+                                                        			    		                      
+   		Programmer			:		Cardenas Roberto                
+   		Assignment #		:   	Program #1                    	
+   		Assignment Name   :	   Are you Game?
+   		Course # and Title:	   CISC 190 - Java    	
+   		Class Meeting Time:	   TTH 1:00 – 4:05	
+  		   Instructor			:	   Professor Forman 
+  		   Hours			   	:	   14:00
+   		Difficulty			:	   5/10			
+   		Completion Date	:	   04/04/2017 	
+   		File Name			:  	Interface
+
+***************************************************************
+
+
+                            PROGRAM DESCRIPTION
+                            
+         
+***************************************************************/
+
 import javax.swing.*;//JFrame, JLabel, JButton, JOPtionPane
 import java.util.*;//Date
 import java.awt.*;//Color, Font
@@ -101,6 +126,7 @@ public class RobertoFinalEscape
          {
             public void actionPerformed(ActionEvent e)
             {
+               //jukeBox.pressOk();
                showOverviewFrame(frame);
             }
          }
@@ -111,6 +137,7 @@ public class RobertoFinalEscape
          {
             public void actionPerformed(ActionEvent e)
             {
+               //jukeBox.pressOk();
                showLoginFrame(frame);
             }
          }
@@ -121,6 +148,7 @@ public class RobertoFinalEscape
          {
             public void actionPerformed(ActionEvent e)
             {
+               //jukeBox.pressOk();
                player.setName("Panfilo Filomeno");
                showExitFrame(frame);
             }
@@ -144,7 +172,8 @@ public class RobertoFinalEscape
       frame.getContentPane().removeAll();
       frame.setTitle("Welcome to Roberto's Escape from the Undergound!!!");
       frame.add(panel);
-      frame.setVisible(true);      
+      frame.setVisible(true);
+      ////jukeBox.playMainTheme();
    }
 /******************************************************************************
 
@@ -178,6 +207,7 @@ public class RobertoFinalEscape
          {
             public void actionPerformed(ActionEvent e)
             {
+               //jukeBox.pressOk();
                showWelcomeFrame(frame);
             }
          }
@@ -261,6 +291,7 @@ public class RobertoFinalEscape
                   pinTxtField.setText("");
                   passTxtField.setText("");
                }
+               //jukeBox.pressOk();
             }
          }
       );
@@ -270,6 +301,7 @@ public class RobertoFinalEscape
          {
             public void actionPerformed(ActionEvent e)
             {
+               //jukeBox.pressOk();
                player.setName("Sugar Daddy Bait");
                showExitFrame(frame);
             }
@@ -361,6 +393,7 @@ public class RobertoFinalEscape
       JLabel labelTemmy = new JLabel();
       JLabel labelMettaton = new JLabel();
       JPanel panel = new JPanel();
+      JTextPane textPane = new JTextPane();
       JButton idInfoButton = new JButton("ID Info");
       JButton exitButton = new JButton("Exit To Desktop");
       
@@ -415,12 +448,15 @@ public class RobertoFinalEscape
       labelMettaton.setHorizontalAlignment(JLabel.RIGHT);
       labelMettaton.setVerticalAlignment(JLabel.BOTTOM);
       
+
+      
       setupButton(idInfoButton, 425, 250);
       idInfoButton.addActionListener(new ActionListener()
       {
          public void actionPerformed(ActionEvent e)
          {
-            //showIdInfoFrame();
+            //jukeBox.pressOk();
+            showIdInfoFrame();
          }
       }
       );
@@ -431,6 +467,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
+            //jukeBox.pressOk();
             System.exit(0);
          }
       }
@@ -454,6 +491,123 @@ public class RobertoFinalEscape
       frame.setTitle("Farewell from Roberto's Escape from the Underground!!!");
       frame.add(panel);
       frame.setVisible(true); 
+   }
+   public void showIdInfoFrame()
+   {
+      String strIDInfo = "                                                \n"
+                        +"       Programmer          :  Cardenas Roberto  \n"               
+   		               +"       Assignment#         :  Final Escape      \n"              	
+   		               +"       Assignment Name     :  Final Escape      \n"
+   		               +"       Course # and Title  :  CISC 190 - Java   \n"  	
+   		               +"       Class Meeting Time  :  TTH 1:00 – 4:05   \n"
+  		                  +"       Instructor          :  Professor Forman  \n"
+  		                  +"       Hours               :  44.5              \n"
+   		               +"       Difficulty          :  10/10             \n"
+   		               +"       Completion Date     :  05/24/2017        \n"
+   		               +"       File Name           :  RobertoFinalEscape\n";
+      String strCredits = "                                                           \n"
+                         +"  Acknowledge those who helped you and whom you helped     \n"
+                         +"    Remember the 'triangle of learning':                   \n"
+                         +"    *Thanks for assistance and inspiration from:           \n"         			
+                         +"     -www.tutorialspoint.com/java                          \n"
+                         +"     -www.stackoverflow.com                                \n"
+                         +"     -Professor Forman                                     \n"
+                         +"    *Thanks for the opportunity to assist and inspire      \n"
+                         +"     -Yvan";
+      String strMediaOne = " *Music:                                                               \n"
+                          +"  -All audio files taken from the undertale main folder                \n"
+                          +" *Pictures:                                                            \n"
+                          +"  -Undertale TitleScreen:                                              \n"
+                          +"    http://fontmeme.com/images/undertale-font.jpg                      \n"
+                          +"  -Sans Gif:                                                           \n"
+                          +"    http://vignette2.wikia.nocookie.net/undertale/images/2/29/Animaci% \n"
+                          +"    C3%B3n_Sans.gif/revision/latest?cb=20151125200713&path-prefix=es   \n"
+                          +"  -Papyrus Gif:                                                        \n"
+                          +"    http://pa1.narvii.com/6168/3000e51c2808e347abfdaa789ea48e81379ed25 \n"
+                          +"    0_hq.gif   ";
+      String strMediaTwo = "  -Sans and Papyrus Gif:                                               \n"
+                          +"    https://media.tenor.co/images/9dbb6676d6fe8ca44adc62f097646480/raw \n"
+                          +"  -Temmy Gif:                                                          \n"
+                          +"    http://giphy.com/gifs/undertale-vrpg7CCZERhsY                      \n"
+                          +"  -Blind Doggo Gif                                                     \n"
+                          +"    http://giphy.com/gifs/undertale-b78LAtUEw9DBS                      \n"
+                          +"  -Mettaton Gif:                                                       \n"
+                          +"    http://vignette1.wikia.nocookie.net/undertale/images/5/58/Mettato  \n"
+                          +"    n.gif/revision/latest?cb=20151111052225                            \n"
+                          +"  -Heart Icon:                                                         \n"
+                          +"    http://img03.deviantart.net/9855/i/2016/130/b/7/undertale___pixel_ \n"
+                          +"    heart_thingy_by_aspalax-da1zkgz.png                                \n";
+                          
+                          
+      String strMediaThree = "  -Flowey Gif:                                                         \n"
+                            +"    http://vignette2.wikia.nocookie.net/villains/images/0/09/Flowey_th \n"
+                            +"    e_flower.gif/revision/latest?cb=20160128235934                     \n"
+                            +" *Font                                                                 \n"
+                            +"  -Undertale Font: Determination Mono                                  \n"
+                            +"    https://www.behance.net/gallery/31268855/Determination-Better-U    \n"
+                            +"    ndertale-Font                                                      \n";
+                            
+
+      String strStarsSwinging =   "         Stars          \n "
+                                 +" 1.- #83 Reset Button        \n"
+                                 +" 2.- #85 Radio button for the gender info \n"
+                                 +" 3.- #86 JComboBox for astrological sign  \n"
+                                 +" 4.- #103 Handle player default alias \n"
+                                 +" 5.- #2 Quit button in all game frames\n"
+                                 +" 6.- #11 Give player option to add cash mid game\n"
+                                 +" 7.- #15 Possibility to bribe creature\n"
+                                 +" 8.- #16 Possibility to feed creature\n"
+                                 +" 9.- #18 Key dissapears after it has been found"
+                                 +" 10.- #22 Add 2 extra indoor JFrame(2)\n"
+                                 +" 11.-#56#57 Use LayoutManager panel.setLayout(null)(2)\n"
+                                 +" 12.-DD Advanced feature. Used JTextPane\n"
+                                 +" 13.-EE Add pizzaz: Created my own 'JOptionPane' for the game";
+      
+      
+      
+      
+      
+     
+      displayTextFrame(strStarsSwinging,1);
+      displayTextFrame(strMediaThree,0);
+      displayTextFrame(strMediaTwo,0);
+      displayTextFrame(strMediaOne,0);
+      displayTextFrame(strCredits,0);
+      displayTextFrame(strIDInfo,0);
+      
+   }
+   public void displayTextFrame(String text, int indicator)
+   {
+      JTextPane pane = new JTextPane();
+      JFrame frame = new JFrame();
+      JPanel panel = new JPanel();
+      JButton okButton = new JButton("Ok");
+      pane.setText(text);
+      setupTextArea(pane,50,50);
+      
+      setupButton(okButton, 100,400);
+      okButton.addActionListener(new ActionListener()
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            frame.setVisible(false);
+            //next.setVisible(true);
+            frame.dispose();
+            if (indicator ==1)
+               System.exit(0);
+         }
+      }
+      );
+      
+      panel.setBackground(Color.BLACK);
+      panel.add(pane);
+      panel.add(okButton);
+      
+      frame.add(panel);
+      frame.pack();
+      frame.setLocationRelativeTo(null);
+      frame.setVisible(true);
+      
    }
 /******************************************************************************
 
@@ -527,6 +681,7 @@ public class RobertoFinalEscape
          {
             public void actionPerformed(ActionEvent e)
             {
+               //jukeBox.pressOk();
                String gender = "";
                if(maleRadioButton.isSelected())
                {
@@ -557,6 +712,7 @@ public class RobertoFinalEscape
          {
             public void actionPerformed(ActionEvent e)
             {
+               //jukeBox.pressOk();
                showFeatureSelectFrame(frame);
             }
          }
@@ -567,6 +723,7 @@ public class RobertoFinalEscape
          {
             public void actionPerformed(ActionEvent e)
             {
+               //jukeBox.pressOk();
                aliasTxtField.setText("");
                maleRadioButton.setSelected(true);
                
@@ -674,6 +831,7 @@ public class RobertoFinalEscape
          {
             public void actionPerformed(ActionEvent e)
             {
+               //jukeBox.pressOk();
                double ageFee = 0;
                String playerType = "";
                if (miniRadioButton.isSelected())
@@ -718,6 +876,7 @@ public class RobertoFinalEscape
          {
             public void actionPerformed(ActionEvent e)
             {
+               //jukeBox.pressOk();
                showExitFrame(frame);
             }
          }
@@ -779,6 +938,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
+            //jukeBox.pressOk();
             showAccountSummaryFrame(frame, total);
          }
       }
@@ -821,6 +981,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
+            ////jukeBox.pressOk();
             gameHistory = new History(player);
             showPlayGameFrame(frame);
          }
@@ -863,6 +1024,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
+            //jukeBox.pressOk();
             game.reset();
             game.play();
          }
@@ -874,6 +1036,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
+            //jukeBox.pressOk();
             showInstructionsFrame();
          }
       }
@@ -884,6 +1047,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
+            //jukeBox.pressOk();
             showHistoryFrame(frame);
          }
       }
@@ -894,6 +1058,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
+            //jukeBox.pressOk();
             showExitFrame(frame);
          }
       }
@@ -905,6 +1070,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
+            //jukeBox.pressOk();
             showSolutionFrame();
          }
       }
@@ -966,6 +1132,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
+            //jukeBox.pressOk();
             frame.setVisible(false);
             frame.dispose();
          }
@@ -1016,6 +1183,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
+            //jukeBox.pressOk();
             frame.setVisible(false);
             frame.dispose();
          }
@@ -1046,6 +1214,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
+            //jukeBox.pressOk();
             showHistory();
          }
       }
@@ -1055,7 +1224,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
-            
+            //jukeBox.pressOk();
          }
       }
       );
@@ -1064,7 +1233,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
-            
+            //jukeBox.pressOk();
          }
       }
       );
@@ -1073,6 +1242,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
+            //jukeBox.pressOk();
             showPlayGameFrame(frame);  
          }
       }
@@ -1113,6 +1283,7 @@ public class RobertoFinalEscape
       {
          public void actionPerformed(ActionEvent e)
          {
+            //jukeBox.pressOk();
             frame.setVisible(false);
             frame.dispose();
          }
